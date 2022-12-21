@@ -9,11 +9,17 @@ const companySchema = mongoose.Schema(
             required: [true, "please give company name"]
         },
         email: {
-            type: String,
-            lowercase: true,
-            unique: [true, "email id is already exist"],
-            required: [true, "can't be blank"],
-            match: [/\S+@\S+\.\S+/, 'email is invalid']
+            type: String, 
+            lowercase: true, 
+            unique: true, 
+            required: [true, "can't be blank"], 
+            match: [/\S+@\S+\.\S+/, 'is invalid']
+        },
+        contact:{
+            type:Number,
+            unique: [true,"contact number is already exist"],
+            required:[true, "Cant't be blank"],
+            match: [/^[(]?[0-9]{3}[)]?[\s\.]?[0-9]{3}[\s\.]?[0-9]{4,6}$/,"is Invalid"]
         },
         address: {
             line1: {
@@ -26,21 +32,23 @@ const companySchema = mongoose.Schema(
                 type: String
             },
             pincode: {
-                type: number
+                type: Number
             },
             state: {
                 type: String
             },
-            required : [true,"can't be blank"],
-            unique : [true,"it must be unique"]
+            
         },
         rating: {
-            type: number,
+            type: Number,
             default: 0
         },
         serviceTime: {
-            type: string,
+            // check when entry is made to database
+            type: String,
             required: [true, "can't be blank"],
         }
     }
 )
+
+module.exports = mongoose.model('Company',companySchema);
