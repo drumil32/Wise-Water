@@ -2,7 +2,6 @@ const bcrypt = require('bcryptjs');
 const asyncHandler = require('express-async-handler');
 const WorkerApplication = require('../../models/workerApplicationModel');
 const {passwordGen} = require('../../utility/passwordGenerator');
-const {generateJWTtoken} = require('../../utility/generateJWTtoken');
 
 // registerUser registers any user
 // @desc    worker can apply for job to compnay 
@@ -23,7 +22,7 @@ exports.workerApplication = asyncHandler(async (req, res) => {
         throw new Error('Invalid contact');
     }
     // Check if user already exsist
-    const workerExists = await Worker.findOne({ email });
+    const workerExists = await WorkerApplication.findOne({ email });
     if (workerExists) {
         res.status(400);
         console.log(workerExists);
@@ -46,9 +45,9 @@ exports.workerApplication = asyncHandler(async (req, res) => {
 
     if (worker) {
         res.status(201).json({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
+            _id: worker._id,
+            name: worker.name,
+            email: worker.email,
         });
     }else{
         res.status(400);

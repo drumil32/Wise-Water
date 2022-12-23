@@ -11,7 +11,8 @@ const {generateJWTtoken} = require('../../utility/generateJWTtoken');
 
 exports.registerUser = asyncHandler(async (req, res) => {
     const { firstname, lastname, email, password, confirmPassword , contact, cName, cEmail,cContact,cAddress, cServiceTime } = req.body;
-
+    console.log(req.body)
+    console.log("from owner register")
     if (!firstname || !lastname || !email || !password  || !confirmPassword || !contact || !cName || !cEmail || !cContact || !cAddress || !cServiceTime) {
         res.status(400);
         throw new Error('Invalid Credential');
@@ -20,7 +21,7 @@ exports.registerUser = asyncHandler(async (req, res) => {
         res.status(400);
         throw new Error('Invalid contact');
     }
-    else if( password === confirmPassword){
+    else if( password !== confirmPassword){
         res.status(400);
         throw new Error('Invalid password');
     }else if( cServiceTime ){
