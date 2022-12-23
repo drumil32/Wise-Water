@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
-const addressSchema = require('./addressModel');
-
-const customerSchema = mongoose.Schema({
+const workerApplicationSchema = mongoose.Schema({
     email: {
         type: String, 
         lowercase: true, 
@@ -17,9 +15,13 @@ const customerSchema = mongoose.Schema({
         type: String,
         required: [true, "can't be blank"], 
     },
-    address : {
-        type : String,
-        required: [true, "address is required"],
+    password:{
+        type: String,
+        required: [true, "can't be blank"], 
+    },
+    applicationdate :{
+        type:Date,
+        default:Date.now
     },
     contact:{
         type:Number,
@@ -27,10 +29,12 @@ const customerSchema = mongoose.Schema({
         required:[true, "Cant't be blank"],
         match: [/^[(]?[0-9]{3}[)]?[\s\.]?[0-9]{3}[\s\.]?[0-9]{4,6}$/,"is Invalid"]
     },
-    password:{
-        type: String,
-        required: [true, "can't be blank"], 
+    company_id: {
+        // we are giving type of foregine key 
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        // ref:'User' this allows user field to work as foregine key
+        ref: 'Company'
     },
 });
-
-module.exports = mongoose.model("Customer",customerSchema);
+module.exports = mongoose.model('WorkerApplication',workerApplicationSchema);

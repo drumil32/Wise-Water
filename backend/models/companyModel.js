@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const addressSchema = require('./addressModel');
 
 const companySchema = mongoose.Schema(
     {
@@ -21,23 +22,9 @@ const companySchema = mongoose.Schema(
             required:[true, "Cant't be blank"],
             match: [/^[(]?[0-9]{3}[)]?[\s\.]?[0-9]{3}[\s\.]?[0-9]{4,6}$/,"is Invalid"]
         },
-        address: {
-            line1: {
-                type: String
-            },
-            line2: {
-                type: String
-            },
-            city: {
-                type: String
-            },
-            pincode: {
-                type: Number
-            },
-            state: {
-                type: String
-            },
-            
+        address : {
+            type : addressSchema,
+            required: [true, "address is required"],
         },
         rating: {
             type: Number,

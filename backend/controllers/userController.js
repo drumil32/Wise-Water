@@ -5,24 +5,18 @@ const Owner = require('../models/ownerModel');
 const Worker = require('../models/workerModel');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const asyncHandler = require('express-async-handler');
+const {mapCollectionName} = require('../utility/mappingCollection');
+const {generateJWTtoken} = require('../utility/generateJWTtoken');
 
-// getGoals gives all goals of currently authenticated user
+// getGoals gives all goals of currently authenticated user 
 // @desc    loginUser :- loggedin all types of users
 // @route   post /api/user
 // @access  public
 
-const mapCollectionName = (collectionName)=>{
-    switch(collectionName){
-        case "Customer":
-            return Customer;
-        case "Owner":
-            return Owner;
-        case "Worker":
-            return Worker;
-    }
-}
-
-exports.loginUser = async (req,res)=>{
+exports.loginUser = asyncHandler(async (req,res)=>{
+    console.log(req.body);
+    console.log('from loginuser')
     const {email,password} = req.body;
     
     if ( !email || !password) {
@@ -30,37 +24,20 @@ exports.loginUser = async (req,res)=>{
         throw new Error('Please give all the details');
     }
     
-    const collection = mapCollectionName(req.body.colName);
+    const collection = mapCollectionName(req.body.collectionName);
     
     const user = await collection.findOne({email});
-
+    console.log(user);
+    console.log(collection + "from")
     if( user && (await bcrypt.compare(password, user.password) ) ){
         res.json({
             id: user._id,
             name: user.name,
             email: user.email,
-            token:generateToken(user._id)
+            token:generateJWTtoken(user._id,req.body.collectionName) // whty every time create new token
         });
     }else{
         res.status(400);
         throw new Error('Invalid creadtionals');
     }
-}
-
-
-const generateToken = (id) =>{
-    return jwt.sign({id},process.env.JWT_SECRET,{
-        expiresIn:'30d'
-    })
-}
-
-// registerUser registers any user
-// @desc    registerUser :- register user according to role, if owner is registyering then check companey id and       companey name
-// @route   get /api/user/register
-// @access  public
-
-exports.registerUser = (req,res)=>{
-    const {dbName, registerDetails} = req.body;
-    const collection = mapCollectionName(dbName);
-    collection.insertOne({});
-}
+});
