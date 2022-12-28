@@ -14,9 +14,13 @@ const PORT = process.env.PORT || 5000;
 connectDB();
 
 app.use(bodyParser.json());
-app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cors(
+    {
+        origin:["http://localhost:3001","https://Wise-Water.onrender.com"]
+    }
+));
 
 app.get('/', (req, res) => {
     navigator.geolocation.getCurrentPosition(successCallback, errorCallback, options);
