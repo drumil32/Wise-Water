@@ -10,6 +10,4 @@ const tempSchema = mongoose.Schema({
     }
 });
 
-
-
 module.exports = mongoose.model("Temp",tempSchema);
