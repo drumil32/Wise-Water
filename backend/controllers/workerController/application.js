@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const asyncHandler = require('express-async-handler');
 const WorkerApplication = require('../../models/workerApplicationModel');
+const Company = require('../../models/companyModel');
 const {passwordGen} = require('../../utility/passwordGenerator');
 
 // registerUser registers any user
@@ -9,11 +10,11 @@ const {passwordGen} = require('../../utility/passwordGenerator');
 // @access  public
 
 exports.workerApplication = asyncHandler(async (req, res) => {
-    const { firstname, email, lastname, contact, company_id} = req.body;
+    const { firstname, email, lastname, contact, companyname} = req.body;
 
     const password = passwordGen(8);
 
-    if (!firstname || !email || !lastname || !contact || !company_id) {
+    if (!firstname || !email || !lastname || !contact || !companyname) {
         res.status(400);
         throw new Error('Invalid Credential');
     }
@@ -29,6 +30,13 @@ exports.workerApplication = asyncHandler(async (req, res) => {
         throw new Error('Email is Already in use');
     }
 
+    const compnay = await Company.findOne({ name:companyname });
+    console.log(compnay);
+    if( null===compnay ){
+        res.status(401);
+        throw new Error('compnay is not exists');
+    }
+    const {_id:company_id} = compnay;
     console.log(password);
 
     const salt = await bcrypt.genSalt(10);

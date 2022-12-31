@@ -5,7 +5,7 @@ const {decodeJWTtoken} = require('../utility/decodeJWTtoken');
 const protect = asyncHandler(async (req, res, next) => {
     console.log(req.body);
     console.log( 'from protect');
-    const decoded = decodeJWTtoken(req);
+    const decoded = decodeJWTtoken(req,res);
 
     try {
         const collection = mapCollectionName( decoded.collectionName );

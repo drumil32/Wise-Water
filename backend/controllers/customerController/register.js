@@ -19,18 +19,18 @@ exports.registerUser = asyncHandler(async (req, res) => {
         throw new Error('Invalid Credential');
     }
     else if( contact.length > 10){
-        res.status(400);
+        // res.status(400);
         throw new Error('Invalid contact');
     }
     else if( password !== confirmPassword){
-        res.status(400);
+        // res.status(400);
         throw new Error('Invalid password');
     }
 
     // Check if user already exsist
     const userExists = await Customer.findOne({ email });
     if (userExists) {
-        res.status(400);
+        res.status(401);
         console.log(userExists);
         throw new Error('Email is Already in use');
     }
@@ -46,17 +46,17 @@ exports.registerUser = asyncHandler(async (req, res) => {
         email,
         password: hashPassword
     });
-
+    
     if (user) {
-        res.status(201).json({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
+        res.json({
+            ...user, 
+            // message : 'done',
             // is this required
+            // FOR NOW I AM COMMENT THIS BECAUSE IT IS GIVING ERROR LIKE THIS
             token:generateJWTtoken(user._id,"Customer")
         });
     }else{
-        res.status(400);
+        res.status(400).send('invalid user data');
         throw new Error('Invalid user data');
     }
 });
