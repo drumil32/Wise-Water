@@ -1,8 +1,14 @@
-import React,{useState,useEffect} from "react";
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./pages/login";
 function App() {
   return (
-    <div >  hello
-    </div>
+    <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Login/>}/>
+      <Route exact path="/register/customer" element={<Login/>}/>
+    </Routes>
+    </BrowserRouter>
   );
 }
 
