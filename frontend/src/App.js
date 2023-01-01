@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import WorkerApplication from './pages/registration/WorkerApplication';
 import OwnerRegistration from './pages/registration/OwnerRegistration';
 import ShowCompnaies from './pages/ShowCompnaies';
+import ShowWorkerApplications from './pages/ShowWorkerApplications';
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
       <Route path="/customer/register" element={<CustomerRegistration/>}/>
       <Route path="/worker/application" element={<WorkerApplication/>}/>
       <Route path="/owner/register" element={<OwnerRegistration/>}/>
-      <Route path="/user/showCompnaies" element={<ShowCompnaies/>}/>
+      <Route path="/owner/show-worker-applications" element={<ShowWorkerApplications/>}/>
+      <Route path="/user/show-compnaies" element={<ShowCompnaies/>}/>
       <Route path="*" element={<NotFound/>}/>
     </Routes>
     </BrowserRouter>
