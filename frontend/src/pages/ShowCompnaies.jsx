@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import Spinner from '../components/Spinner';
 import Fuse from 'fuse.js';
 
+//  not 100% sure how this code works
 
 function ShowCompnaies() {
     console.log(Fuse)
