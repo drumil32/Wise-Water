@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const {errorHandler} = require('./middleware/errorMiddleware');
 const {userTypeHandler} = require('./middleware/userTypeMiddleware');
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3001;
 connectDB();
 
 app.use(bodyParser.json());
