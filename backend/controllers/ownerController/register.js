@@ -29,14 +29,15 @@ exports.registerUser = asyncHandler(async (req, res) => {
     }
 
     // Check if user already exsist
-    const userExists = await Owner.findOne({ email });
+    const userExists = await Owner.findOne({ $or : [{email:email},{contact:contact}] });
+    console.log(userExists);
     if (userExists) {
         res.status(400);
         console.log(userExists);
         throw new Error('Owner is already exists');
     }
 
-    const companyExists = await Company.findOne({ $or:[{email:cEmail},{name:cName}] });
+    const companyExists = await Company.findOne({ $or:[{email:cEmail},{name:cName},{contact:cContact}] });
     if( companyExists ){
         res.status(400);
         console.log(companyExists);
