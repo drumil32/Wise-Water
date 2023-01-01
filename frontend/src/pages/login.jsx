@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
 
-export default function Login() {
+export default function Login({setCookies}) {
+  console.log(setCookies)
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const hadleSubmit = async (e) => {
@@ -27,17 +28,11 @@ export default function Login() {
       });
       const data = await response.json();
       if( data.type ) throw new Error(data.message);
-      console.log(data);
+      
+      setCookies('token', data.token);
     } catch (error) {
       toast.error(error.message);
     }
-    // .then(async function (res) {
-    //   return await res.json();
-    // })
-    // .then((val) => {
-    //   console.log(val);
-    // })
-    // .catch((err) => console.error(err));
   }
   return (
     <>

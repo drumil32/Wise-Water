@@ -5,7 +5,7 @@ import Fuse from 'fuse.js';
 //  not 100% sure how this code works
 // REASON :- useEffect with useRef
 
-function ShowCompnaies() {
+export default function ShowCompnaies() {
     console.log(Fuse)
     const [compnaies, setCompnaies] = useState([]);
     const fuse = useRef(null);
@@ -58,5 +58,3 @@ function ShowCompnaies() {
         </div>
     )
 }
-
-export default ShowCompnaies

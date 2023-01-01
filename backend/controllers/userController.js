@@ -14,8 +14,8 @@ const { generateJWTtoken } = require('../utility/generateJWTtoken');
 // @access  public
 
 exports.loginUser = asyncHandler(async (req, res) => {
-    console.log(req.body);
-    console.log('from loginuser')
+    // console.log(req.body);
+    // console.log('from loginuser')
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -26,8 +26,8 @@ exports.loginUser = asyncHandler(async (req, res) => {
     const collection = mapCollectionName(req.body.collectionName);
 
     const user = await collection.findOne({ email });
-    console.log(user);
-    console.log(collection + "from")
+    // console.log(user);
+    // console.log(collection + "from")
     if (user && (await bcrypt.compare(password, user.password))) {
         res.json({
             id: user._id,

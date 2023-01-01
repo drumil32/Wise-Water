@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Spinner from '../components/Spinner';
 import Fuse from 'fuse.js';
+import { toast } from 'react-toastify';
+import { useNavigate  } from 'react-router-dom';
 
 //  not 100% sure how this code works
 // REASON :- useEffect with useRef
@@ -11,24 +13,38 @@ import Fuse from 'fuse.js';
 // then backend will find all the users who applied for this compnay and then only those worker will be shown to owner but for now authentication is remaing so i didn't did that
 // AND ACCRODINGY WE ALSO NEED TO CHANGE BACKEND AS WELL
 
-function ShowWorkerApplications() {
+function ShowWorkerApplications({ cookies }) {
+    const navigate = useNavigate();
+    console.log(cookies);
     console.log(Fuse)
     const [workerApplications, setWorkerApplications] = useState([]);
     const fuse = useRef(null);
     useEffect(() => {
         const fun = async () => {
-            const response = await fetch(`http://localhost:3001/api/owner/showWorkerApplications`);
-            const data = await response.json();
-            console.log(data);
-            fuse.current = new Fuse(data.workerApplications, {
-                keys: [
-                    'name',
-                    'address',
-                ],
-                includeScore: true
-            });
-            // console.log(fuse);
-            setWorkerApplications(data.workerApplications);
+            try{
+                const {token} = cookies;
+                const response = await fetch(`http://localhost:3001/api/owner/showWorkerApplications`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ token }),
+                });
+                const data = await response.json();
+                if( data.type==='error' )   throw(data.message);
+                console.log(data);
+                fuse.current = new Fuse(data.workerApplications, {
+                    keys: [
+                        'name',
+                        'email',
+                    ],
+                    includeScore: true
+                });
+                // console.log(fuse);
+                setWorkerApplications(data.workerApplications);
+            }catch(error){
+                navigate('/');
+            }
         }
         fun();
     }, []);
@@ -45,7 +61,7 @@ function ShowWorkerApplications() {
             });
             console.log(temp);
             setWorkerApplications(temp);
-        }else{
+        } else {
             console.log("here")
         }
     }, [fuse, query]);

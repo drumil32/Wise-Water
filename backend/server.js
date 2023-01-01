@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
 
 // REASON FOR PUT userTypeHandler in comment is for now JWT token is not configured
 
-// app.use('/',userTypeHandler);
+app.use('/',userTypeHandler);
 app.use('/api/user',require('./routes/userRoutes.js'));
 app.use('/api/owner',require('./routes/ownerRoutes.js'));
 app.use('/api/worker',require('./routes/workerRoutes.js'));
