@@ -10,6 +10,8 @@ const protect = asyncHandler(async (req, res, next) => {
     try {
         const collection = mapCollectionName( decoded.collectionName );
         req.user = await collection.findById(decoded.id).select('-password'); 
+        
+        console.log(req.user)
         next();
     } catch (error) {
         console.log(error);

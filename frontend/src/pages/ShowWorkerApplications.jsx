@@ -15,8 +15,8 @@ import { useNavigate  } from 'react-router-dom';
 
 function ShowWorkerApplications({ cookies }) {
     const navigate = useNavigate();
-    console.log(cookies);
-    console.log(Fuse)
+    // console.log(cookies);
+    // console.log(Fuse)
     const [workerApplications, setWorkerApplications] = useState([]);
     const fuse = useRef(null);
     useEffect(() => {

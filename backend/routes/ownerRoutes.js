@@ -7,7 +7,7 @@ const {showWorkerApplications} = require('../controllers/ownerController/showWor
 const {protect} = require('../middleware/authMiddlerware');
 
 router.post('/register',registerUser);
-router.get('/profile',protect,profile);
+router.post('/profile',protect,profile);
 router.post('/showWorkerApplications',protect,showWorkerApplications);
 
 module.exports = router;
