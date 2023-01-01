@@ -1,26 +1,55 @@
-import React, { useEffect, useState } from 'react';
-import Spinner from '../components/Spinner'
+import React, { useEffect, useState, useRef } from 'react';
+import Spinner from '../components/Spinner';
+import Fuse from 'fuse.js';
+
 
 function ShowCompnaies() {
+    console.log(Fuse)
     const [compnaies, setCompnaies] = useState([]);
+    const fuse = useRef(null);
     useEffect(() => {
         const fun = async () => {
             const response = await fetch(`http://localhost:3001/api/user/showCompnaies`);
             const data = await response.json();
-            console.log(data.companies)
+            
+            fuse.current = new Fuse(data.companies, {
+                keys: [
+                    'name',
+                    'address',
+                ],
+                includeScore: true
+            });
+            // console.log(fuse);
             setCompnaies(data.companies);
-            console.log(data);
         }
         fun();
     }, []);
+
+    const [query, setQuery] = useState('');
+
+    useEffect(() => {
+        if (fuse.current) {
+            console.log(query)
+            const results = fuse.current.search(query);
+            const temp = [];
+            results.forEach(result => {
+                temp.push(result.item);
+            });
+            console.log(temp);
+            setCompnaies(temp);
+        }else{
+            console.log("here")
+        }
+    }, [fuse, query]);
 
     if (0 === compnaies.length)
         return (<Spinner />);
 
     return (
         <div>
+            <input type="text" name="query" onChange={(e) => setQuery(e.target.value)} value={query} />
             {
-                compnaies.map((compnay,index)=>{
+                compnaies.map((compnay, index) => {
                     return <p key={index}>{compnay.name}</p>
                 })
             }
