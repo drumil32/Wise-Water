@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
     res.send('yo man');
 });
 
-// app.use('/',userTypeHandler);
+app.use('/',userTypeHandler);
 app.use('/api/user',require('./routes/userRoutes.js'));
 app.use('/api/owner',require('./routes/ownerRoutes.js'));
 app.use('/api/worker',require('./routes/workerRoutes.js'));

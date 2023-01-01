@@ -7,6 +7,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import WorkerApplication from './pages/registration/WorkerApplication';
 import OwnerRegistration from './pages/registration/OwnerRegistration';
+import ShowCompnaies from './pages/ShowCompnaies';
 
 function App() {
   return (
@@ -15,8 +16,9 @@ function App() {
     <Routes>
       <Route path="/" element={<Login/>}/>
       <Route path="/customer/register" element={<CustomerRegistration/>}/>
-      <Route path="worker/application" element={<WorkerApplication/>}/>
+      <Route path="/worker/application" element={<WorkerApplication/>}/>
       <Route path="/owner/register" element={<OwnerRegistration/>}/>
+      <Route path="/user/showCompnaies" element={<ShowCompnaies/>}/>
       <Route path="*" element={<NotFound/>}/>
     </Routes>
     </BrowserRouter>
