@@ -12,6 +12,7 @@ const protect = asyncHandler(async (req, res, next) => {
         req.user = await collection.findById(decoded.id).select('-password'); 
         
         console.log(req.user)
+        console.log('from protect is done');
         next();
     } catch (error) {
         console.log(error);

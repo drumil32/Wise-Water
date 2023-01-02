@@ -18,6 +18,7 @@ const userTypeHandler = (req, res, next) => {
         console.log('after called djt')
         console.log(decoded);
         if (decoded.collectionName.toLowerCase() === url[2].toLowerCase()) {
+            console.log('next is called')
             next();
         }
         else {
@@ -25,7 +26,7 @@ const userTypeHandler = (req, res, next) => {
             res.status(401);
             throw new Error('not authorized');
         }
-        console.log("from usercheck")
+        console.log("from user type check middleware")
     }
 }
 

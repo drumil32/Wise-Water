@@ -7,5 +7,5 @@ const {showCompnaies} = require("../controllers/companyController/showCompnaies.
 
 router.post('/login',loginUser);
 router.post('/profileupdate',protect,profileUpdate);
-router.get('/showCompnaies',showCompnaies);
+router.get('/showCompanies',showCompnaies);
 module.exports = router;

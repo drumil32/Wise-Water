@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 
 export default function Login({setCookies}) {
-  console.log(setCookies)
+  // console.log(setCookies);
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const hadleSubmit = async (e) => {
@@ -30,6 +32,9 @@ export default function Login({setCookies}) {
       if( data.type ) throw new Error(data.message);
       
       setCookies('token', data.token);
+
+      navigate('/owner/profile');
+
     } catch (error) {
       toast.error(error.message);
     }
