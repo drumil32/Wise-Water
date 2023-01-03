@@ -33,7 +33,7 @@ export default function Login({setCookies}) {
       
       setCookies('token', data.token);
 
-      navigate('/owner/profile');
+      navigate(`/${user.collectionName.toLowerCase()}/profile`);
 
     } catch (error) {
       toast.error(error.message);

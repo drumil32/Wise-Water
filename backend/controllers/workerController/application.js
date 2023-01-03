@@ -5,7 +5,7 @@ const Company = require('../../models/companyModel');
 const {passwordGen} = require('../../utility/passwordGenerator');
 
 // registerUser registers any user
-// @desc    worker can apply for job to compnay 
+// @desc    worker can apply for job to company 
 // @route   get /api/woker/application
 // @access  public
 
@@ -22,21 +22,23 @@ exports.workerApplication = asyncHandler(async (req, res) => {
         res.status(400);
         throw new Error('Invalid contact');
     }
+
+    const company = await Company.findOne({ name:companyname });
+    console.log(company);
+    if( null===company ){
+        res.status(401);
+        throw new Error('company is not exists');
+    }
+    const {_id:company_id} = company;
+
     // Check if user already exsist
     const workerExists = await WorkerApplication.findOne({ email });
     if (workerExists) {
         res.status(400);
         console.log(workerExists);
-        throw new Error('Email is Already in use');
+        throw new Error('Email is Already in exists');
     }
 
-    const compnay = await Company.findOne({ name:companyname });
-    console.log(compnay);
-    if( null===compnay ){
-        res.status(401);
-        throw new Error('compnay is not exists');
-    }
-    const {_id:company_id} = compnay;
     console.log(password);
 
     const salt = await bcrypt.genSalt(10);

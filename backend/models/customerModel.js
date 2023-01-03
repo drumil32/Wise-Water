@@ -18,7 +18,7 @@ const customerSchema = mongoose.Schema({
         required: [true, "can't be blank"], 
     },
     address : {
-        type : String,
+        type : addressSchema,
         required: [true, "address is required"],
     },
     contact:{

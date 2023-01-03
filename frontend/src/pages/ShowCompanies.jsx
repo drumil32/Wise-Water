@@ -7,10 +7,10 @@ import { useNavigate } from 'react-router-dom';
 // REASON :- useEffect with useRef
 
 export default function ShowCompanies() {
-    console.log(Fuse)
+    
     const navigate = useNavigate();
-    const [companies, setCompanies] = useState([]);
-    const [searchedCompanies, setSearchedCompanies] = useState([]);
+    const [companies, setCompanies] = useState(null);
+    const [searchedCompanies, setSearchedCompanies] = useState(null);
     const fuse = useRef(null);
     useEffect(() => {
         const fun = async () => {
@@ -51,28 +51,43 @@ export default function ShowCompanies() {
         }
     }, [fuse, query]);
 
-    if (0 === companies.length)
+    if ( null===companies )
         return (<Spinner />);
 
     const handleApply = (e) => {
         e.preventDefault();
-        navigate(`/worker/application/:compnayname:${e.target.value}`);
+        console.log(e.target);
+        navigate(`/worker/application/${e.target.value}`);
+    }
+
+    const redirectHandler = (e)=>{
+        e.preventDefault();
+        console.log(e.target);
+        navigate(`${e.target.value}`);
     }
 
     return (
         <div>
-            <input type="text" name="query" onChange={(e) => setQuery(e.target.value)} value={query} />
+            {searchedCompanies.length!==0 && 
+            <input type="text" name="query" onChange={(e) => setQuery(e.target.value)} value={query} />}
             {
-                searchedCompanies.map((compnay, index) => {
+                searchedCompanies.length!==0 && 
+                searchedCompanies.map((company, index) => {
                     // change is reuqired from UI
                     return (
                         <p key={index} >
-                            {compnay.name}
-                            <button value={compnay.name} onClick={handleApply}>apply</button>
+                            {company.name}
+                            <button value={company.name} onClick={handleApply}>apply</button>
                         </p>
                     )
                 })
             }
+            {searchedCompanies.length===0 && <p>no companies found</p>}
+            <div>
+                <button onClick={redirectHandler} value="login">login</button>
+                <button onClick={redirectHandler} value="/customer/register">sign up as customer</button>
+                <button onClick={redirectHandler} value={"/owner/register"}>sign up as Owner</button>
+            </div>
         </div>
     )
 }

@@ -13,7 +13,7 @@ exports.registerUser = asyncHandler(async (req, res) => {
     console.log('we are here bro');
     console.log(req.body);
     const { firstname, email, password, confirmPassword , lastname, address, contact} = req.body;
-
+    console.log(address)
     if (!firstname || !email || !password || !lastname || !address || !contact) {
         res.status(400);
         throw new Error('Invalid Credential');

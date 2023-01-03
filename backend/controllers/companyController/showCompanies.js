@@ -1,7 +1,7 @@
 const Company = require('../../models/companyModel');
 const asyncHandler = require('express-async-handler');
 
-exports.showCompnaies = asyncHandler(async (req,res)=>{
+exports.showCompanies = asyncHandler(async (req,res)=>{
     const {city, pincode} = req.body;
     // if (!city){
     //     throw Error("Error while retriving companies: No search parameter found");

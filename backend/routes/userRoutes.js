@@ -3,9 +3,9 @@ const router = express.Router();
 const {protect} = require('../middleware/authMiddlerware');
 
 const {loginUser, profileUpdate} = require('../controllers/userController');
-const {showCompnaies} = require("../controllers/companyController/showCompnaies.js");
+const {showCompanies} = require("../controllers/companyController/showCompanies.js");
 
 router.post('/login',loginUser);
 router.post('/profileupdate',protect,profileUpdate);
-router.get('/showCompanies',showCompnaies);
+router.get('/showCompanies',showCompanies);
 module.exports = router;

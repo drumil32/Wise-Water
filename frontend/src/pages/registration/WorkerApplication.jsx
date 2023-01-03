@@ -1,23 +1,25 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
+import { useNavigate, useParams } from 'react-router-dom';
 
 // const { firstname, email, lastname, contact, company_id}
 
 export default function WorkerApplication() {
-
+  const navigate = useNavigate();
+  const {compnay_params_name} = useParams();
+  // console.log(params);
+  // console.log(params.)
   const [formData, setFormData] = useState({
-    firstname: '', lastname: '', email: '', contact: '', companyname: ''
+    firstname: '', lastname: '', email: '', contact: '', companyname: compnay_params_name
   });
 
   const handleInputData = (e) => {
-    console.log(e.target)
+    // console.log(e.target)
     const { name, value } = e.target;
     setFormData(prevState => ({ ...prevState, [name]: value }));
   }
 
   const { firstname, lastname, email, contact, companyname } = formData;
-
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,7 +37,7 @@ export default function WorkerApplication() {
       console.log(response);
       const data = await response.json();
       if (data.type === 'error') throw new Error(data.message);
-      console.log(data);
+      navigate('/');
     } catch (error) {
       toast.error(error.message);
     }
@@ -47,7 +49,7 @@ export default function WorkerApplication() {
         lastName : <input type="text" name="lastname" onChange={handleInputData} value={lastname} />
         email : <input type="email" name="email" onChange={handleInputData} value={email} />
         contact : <input type="text" name="contact" onChange={handleInputData} value={contact} />
-        companyname : <input type="text" name="companyname" onChange={handleInputData} value={companyname} />
+        companyname : <input type="text" name="companyname" value={companyname} readOnly={true}/>
         <button type="submit" onClick={handleSubmit}>Submit</button>
       </form>
     </div>

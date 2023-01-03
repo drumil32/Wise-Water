@@ -9,8 +9,8 @@ import { useNavigate  } from 'react-router-dom';
 
 // REMAING :- for now i am fatching all the worker details but 
 
-// some how we need to pass compnay id to backend in fetch function with post method
-// then backend will find all the users who applied for this compnay and then only those worker will be shown to owner but for now authentication is remaing so i didn't did that
+// some how we need to pass company id to backend in fetch function with post method
+// then backend will find all the users who applied for this company and then only those worker will be shown to owner but for now authentication is remaing so i didn't did that
 // AND ACCRODINGY WE ALSO NEED TO CHANGE BACKEND AS WELL
 
 function ShowWorkerApplications({ cookies }) {
