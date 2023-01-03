@@ -17,7 +17,7 @@ function ShowWorkerApplications({ cookies }) {
     const navigate = useNavigate();
     // console.log(cookies);
     // console.log(Fuse)
-    const [workerApplications, setWorkerApplications] = useState([]);
+    const [workerApplications, setWorkerApplications] = useState(null);
     const fuse = useRef(null);
     useEffect(() => {
         const fun = async () => {
@@ -66,17 +66,20 @@ function ShowWorkerApplications({ cookies }) {
         }
     }, [fuse, query]);
 
-    if (0 === workerApplications.length)
+    if (null === workerApplications)
         return (<Spinner />);
 
     return (
-        <div>
+        <div>{workerApplications.length!==0 ? 
+            <>
             <input type="text" name="query" onChange={(e) => setQuery(e.target.value)} value={query} />
             {
                 workerApplications.map((workerApplication, index) => {
                     return <p key={index}>{workerApplication.firstname}</p>
                 })
             }
+            </>
+            : <>No application found</>}
         </div>
     )
 }

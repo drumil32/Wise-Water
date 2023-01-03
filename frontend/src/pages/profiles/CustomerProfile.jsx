@@ -4,7 +4,7 @@ import Spinner from '../../components/Spinner'
 
 export default function CustomerProfile({ cookies,removeCookies }) {
     const navigate = useNavigate();
-    console.log('owner profile');
+    
     const [userData, setUserData] = useState(null);
     // const [companyData, setCompanyData] = useState(null);
     useEffect(() => {
