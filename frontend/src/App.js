@@ -12,7 +12,8 @@ import ShowWorkerApplications from './pages/ShowWorkerApplications';
 import { useCookies } from 'react-cookie';
 import OwnerProfile from './pages/profiles/OwnerProfile';
 import CustomerProfile from './pages/profiles/CustomerProfile';
-import Placeorder from './pages/Placeorder'
+import Placeorder from './pages/Placeorder';
+import ShowPlacedorderList from './pages/ShowPlacedorderList';
 
 function App() {
   const [cookies, setCookies, removeCookies] = useCookies(['token']);
@@ -35,6 +36,7 @@ function App() {
       <Route path="/customer/register" element={<CustomerRegistration setCookies={handleSetCookies}/>}/>
       <Route path="/customer/profile" element={<CustomerProfile cookies={cookies} removeCookies={handleRemoveCookies}/>}/>
       <Route path="/customer/placeorder/:company_name" element={<Placeorder cookies={cookies}/>}/>
+      <Route path="/customer/show-placed-orders" element={<ShowPlacedorderList cookies={cookies}/>}/>
 
       {/* worker */}
       <Route path="/worker/application/:company_params_name" element={<WorkerApplication/>}/>
