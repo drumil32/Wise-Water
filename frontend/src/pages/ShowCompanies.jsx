@@ -6,17 +6,28 @@ import { useNavigate } from 'react-router-dom';
 //  not 100% sure how this code works
 // REASON :- useEffect with useRef
 
-export default function ShowCompanies() {
-    
+export default function ShowCompanies({cookies}) {
+
     const navigate = useNavigate();
     const [companies, setCompanies] = useState(null);
+    const [userType, setUserType] = useState(null);
     const [searchedCompanies, setSearchedCompanies] = useState(null);
     const fuse = useRef(null);
     useEffect(() => {
+        const {token} = cookies;
         const fun = async () => {
             const response = await fetch(`http://localhost:3001/api/user/showCompanies`);
+            const userTypeResponse = await fetch(`http://localhost:3001/api/user/userType`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ token }),
+            });
             const data = await response.json();
-
+            const typeOfUser = await userTypeResponse.json();
+            console.log(typeOfUser);
+            setUserType(typeOfUser.userType);
             fuse.current = new Fuse(data.companies, {
                 keys: [
                     'name',
@@ -51,7 +62,7 @@ export default function ShowCompanies() {
         }
     }, [fuse, query]);
 
-    if ( null===companies )
+    if (null === companies)
         return (<Spinner />);
 
     const handleApply = (e) => {
@@ -60,7 +71,13 @@ export default function ShowCompanies() {
         navigate(`/worker/application/${e.target.value}`);
     }
 
-    const redirectHandler = (e)=>{
+    const handlePlaceorder = (e) => {
+        e.preventDefault();
+        console.log(e.target);
+        navigate(`/customer/placeorder/${e.target.value}`);
+    }
+
+    const redirectHandler = (e) => {
         e.preventDefault();
         console.log(e.target);
         navigate(`${e.target.value}`);
@@ -68,25 +85,30 @@ export default function ShowCompanies() {
 
     return (
         <div>
-            {searchedCompanies.length!==0 && 
-            <input type="text" name="query" onChange={(e) => setQuery(e.target.value)} value={query} />}
+            {searchedCompanies.length !== 0 &&
+                <input type="text" name="query" onChange={(e) => setQuery(e.target.value)} value={query} />}
             {
-                searchedCompanies.length!==0 && 
+                searchedCompanies.length !== 0 &&
                 searchedCompanies.map((company, index) => {
                     // change is reuqired from UI
                     return (
                         <p key={index} >
                             {company.name}
-                            <button value={company.name} onClick={handleApply}>apply</button>
+                            {'guest' === userType && <button value={company.name} onClick={handleApply}>apply</button>}
+                            {'customer' === userType && <button value={company.name} onClick={handlePlaceorder}>place order</button>}
                         </p>
                     )
                 })
             }
-            {searchedCompanies.length===0 && <p>no companies found</p>}
+            {searchedCompanies.length === 0 && <p>no companies found</p>}
             <div>
-                <button onClick={redirectHandler} value="login">login</button>
-                <button onClick={redirectHandler} value="/customer/register">sign up as customer</button>
-                <button onClick={redirectHandler} value={"/owner/register"}>sign up as Owner</button>
+                {'guest' === userType &&
+                    <>
+                        <button onClick={redirectHandler} value="login">login</button>
+                        <button onClick={redirectHandler} value="/customer/register">sign up as customer</button>
+                        <button onClick={redirectHandler} value={"/owner/register"}>sign up as Owner</button>
+                    </>
+                }
             </div>
         </div>
     )

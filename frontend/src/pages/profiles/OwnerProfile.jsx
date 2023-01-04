@@ -48,6 +48,12 @@ export default function OwnerProfile({ cookies,removeCookies }) {
         navigate('/owner/show-worker-applications');
     }
 
+    const redirectHandler = (e) => {
+        e.preventDefault();
+        console.log(e.target);
+        navigate(`${e.target.value}`);
+    }
+
     return (
         <>
             <div>
@@ -69,6 +75,7 @@ export default function OwnerProfile({ cookies,removeCookies }) {
                 <p>line1 : {companyData.address.pincode}</p>
                 <p>line1 : {companyData.address.state}</p>
             </div>
+            <button onClick={redirectHandler} value="/">Show companies</button>
             <button onClick={handleLogout}>logout</button>
         </>
     );

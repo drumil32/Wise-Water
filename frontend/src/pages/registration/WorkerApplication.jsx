@@ -6,11 +6,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 export default function WorkerApplication() {
   const navigate = useNavigate();
-  const {compnay_params_name} = useParams();
+  const {company_params_name} = useParams();
   // console.log(params);
   // console.log(params.)
   const [formData, setFormData] = useState({
-    firstname: '', lastname: '', email: '', contact: '', companyname: compnay_params_name
+    firstname: '', lastname: '', email: '', contact: '', companyname: company_params_name
   });
 
   const handleInputData = (e) => {
