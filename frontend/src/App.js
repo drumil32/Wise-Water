@@ -12,6 +12,7 @@ import ShowWorkerApplications from './pages/ShowWorkerApplications';
 import { useCookies } from 'react-cookie';
 import OwnerProfile from './pages/profiles/OwnerProfile';
 import CustomerProfile from './pages/profiles/CustomerProfile';
+import WorkerProfile from './pages/profiles/WorkerProfile';
 import Placeorder from './pages/Placeorder';
 import ShowPlacedorderList from './pages/ShowPlacedorderList';
 
@@ -40,6 +41,7 @@ function App() {
 
       {/* worker */}
       <Route path="/worker/application/:company_params_name" element={<WorkerApplication/>}/>
+      <Route path="/worker/profile" element={<WorkerProfile/>}/>
 
       {/* owner */}
       <Route path="/owner/register" element={<OwnerRegistration setCookies={handleSetCookies} />}/>

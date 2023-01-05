@@ -3,7 +3,7 @@ const router = express.Router();
 const {protect} = require('../middleware/authMiddlerware');
 
 const {workerApplication} = require('../controllers/workerController/application')
-const {profile} = require('../controllers/ownerController/profile');
+const {profile} = require('../controllers/workerController/profile');
 
 router.post('/application',workerApplication);
 router.get('/profile',protect,profile);

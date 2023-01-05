@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Spinner from '../../components/Spinner'
+import Spinner from '../../components/Spinner';
 
 export default function CustomerProfile({ cookies,removeCookies }) {
     const navigate = useNavigate();
