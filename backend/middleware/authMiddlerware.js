@@ -11,7 +11,7 @@ const protect = asyncHandler(async (req, res, next) => {
         const collection = mapCollectionName(decoded.collectionName);
         req.user = await collection.findById(decoded.id).select('-password');
 
-        console.log(req.user)
+        console.log('from auth middlewear',req.user)
         console.log('from protect is done');
         next();
     } catch (error) {

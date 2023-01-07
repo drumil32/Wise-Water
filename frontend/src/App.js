@@ -41,7 +41,7 @@ function App() {
 
       {/* worker */}
       <Route path="/worker/application/:company_params_name" element={<WorkerApplication/>}/>
-      <Route path="/worker/profile" element={<WorkerProfile/>}/>
+      <Route path="/worker/profile" element={<WorkerProfile cookies={cookies} removeCookies={handleRemoveCookies}/>}/>
 
       {/* owner */}
       <Route path="/owner/register" element={<OwnerRegistration setCookies={handleSetCookies} />}/>

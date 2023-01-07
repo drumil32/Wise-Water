@@ -5,7 +5,7 @@ import Spinner from '../../components/Spinner';
 export default function WorkerProfile({ cookies, removeCookies }) {
     const navigate = useNavigate();
     const [userData, setUserData] = useState(null);
-    // const [companyData, setCompanyData] = useState(null);
+    const [companyData, setCompanyData] = useState(null);
     useEffect(() => {
         const fun = async () => {
             try {
@@ -18,10 +18,13 @@ export default function WorkerProfile({ cookies, removeCookies }) {
                     body: JSON.stringify({ token }),
                 });
                 const data = await response.json();
-                if (data.type === 'error') throw (data.message);
                 console.log(data);
+                if (data.type === 'error') throw (data.message);
+                
                 setUserData(data.user);
+                setCompanyData(data.company);
             } catch (error) {
+                // console.
                 navigate('/');
             }
         }
@@ -40,6 +43,7 @@ export default function WorkerProfile({ cookies, removeCookies }) {
     }
 
     return (
+        <>
         <div>
             <p>your first name : {userData.firstname}</p>
             <p>your last name : {userData.lastname}</p>
@@ -47,5 +51,26 @@ export default function WorkerProfile({ cookies, removeCookies }) {
             <p>your Contact number : {userData.contact}</p>
             <button onClick={handleLogout}>logout</button>
         </div>
+
+        <h1> Company Details</h1>
+        <table>
+            <thead>
+                <tr>
+                <th>Email</th>
+                <th>Contact No</th>
+                <th>Service time</th>
+                <th>Rating</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{companyData.email}</td>
+                    <td>{companyData.contact}</td>
+                    <td>{companyData.serviceTime}</td>
+                    <td>{companyData.rating}</td>
+                </tr>
+            </tbody>
+        </table>
+        </>
     )
 }

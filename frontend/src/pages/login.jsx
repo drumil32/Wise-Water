@@ -30,7 +30,7 @@ export default function Login({setCookies}) {
       });
       const data = await response.json();
       if( data.type ) throw new Error(data.message);
-      
+      console.log(data);
       setCookies('token', data.token);
 
       navigate(`/${user.collectionName.toLowerCase()}/profile`);

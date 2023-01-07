@@ -3,5 +3,5 @@ exports.profile = (req,res) =>{
     console.log('from customer profile')
     res.json({
         user : req.user
-    })
+    });
 }

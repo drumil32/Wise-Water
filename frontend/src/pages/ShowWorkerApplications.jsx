@@ -81,16 +81,16 @@ function ShowWorkerApplications({ cookies }) {
         e.preventDefault();
 
         const workerApplication = searchedWorkerApplications.filter(workerApplication => workerApplication.email === e.target.value);
-        const obj = {...workerApplication[0]};
+        const obj = { ...workerApplication[0] };
         console.log(obj);
         try {
-            
+
             const response = await fetch(`http://localhost:3001/api/owner/hire-worker`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ token, workerApplication: obj}),
+                body: JSON.stringify({ token, workerApplication: obj }),
             });
             const data = await response.json();
             if (data.type === 'error') throw (data.message);
@@ -98,7 +98,7 @@ function ShowWorkerApplications({ cookies }) {
             const temp = searchedWorkerApplications.filter(workerApplication => workerApplication.email !== e.target.value);
             setWorkerApplications(temp);
             setSearchedWorkerApplications(temp);
-        }catch(error){
+        } catch (error) {
             toast(error);
         }
     }

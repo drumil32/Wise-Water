@@ -6,6 +6,6 @@ const {workerApplication} = require('../controllers/workerController/application
 const {profile} = require('../controllers/workerController/profile');
 
 router.post('/application',workerApplication);
-router.get('/profile',protect,profile);
+router.post('/profile',protect,profile);
 
 module.exports = router;
