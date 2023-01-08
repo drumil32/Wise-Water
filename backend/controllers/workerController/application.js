@@ -29,7 +29,6 @@ exports.workerApplication = asyncHandler(async (req, res) => {
         res.status(401);
         throw new Error('company is not exists');
     }
-    const {_id:company_id} = company;
 
     // Check if user already exsist
     const workerExists = await WorkerApplication.findOne({ email });
@@ -50,7 +49,7 @@ exports.workerApplication = asyncHandler(async (req, res) => {
         contact,
         email,
         password: hashPassword,
-        company_id:company_id
+        company_name:companyname
     });
 
     if (worker) {

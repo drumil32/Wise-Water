@@ -23,7 +23,7 @@ export default function WorkerApplication() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const customer = { firstname, lastname, email, contact, companyname };
+    const worker = { firstname, lastname, email, contact, companyname };
 
     try {
       const response = await fetch(`http://localhost:3001/api/worker/application`, {
@@ -32,7 +32,7 @@ export default function WorkerApplication() {
           'Accept': 'application/json, text/plain, */*',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(customer)
+        body: JSON.stringify(worker)
       });
       console.log(response);
       const data = await response.json();

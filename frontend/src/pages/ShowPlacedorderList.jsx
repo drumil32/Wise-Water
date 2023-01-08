@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Spinner from '../components/Spinner';
-import ShowPlacedorder from '../components/ShowPlacedorder';
+import ShowOrder from '../components/ShowOrder';
 
 
 export default function ShowPlacedorderList({ cookies }) {
@@ -37,7 +37,7 @@ export default function ShowPlacedorderList({ cookies }) {
                         <>
                             <div key={index}>
                                 <h2 >order number {index}</h2>
-                                <ShowPlacedorder order={order} />
+                                <ShowOrder order={order} />
                             </div>
                         </>
                     )

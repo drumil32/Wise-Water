@@ -60,6 +60,7 @@ export default function WorkerProfile({ cookies, removeCookies }) {
                 <th>Contact No</th>
                 <th>Service time</th>
                 <th>Rating</th>
+                <th>Company Name</th>
                 </tr>
             </thead>
             <tbody>
@@ -68,6 +69,7 @@ export default function WorkerProfile({ cookies, removeCookies }) {
                     <td>{companyData.contact}</td>
                     <td>{companyData.serviceTime}</td>
                     <td>{companyData.rating}</td>
+                    <td>{companyData.name}</td>
                 </tr>
             </tbody>
         </table>

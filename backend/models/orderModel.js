@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const addressSchema = require('./addressModel');
+const worker = require('./workerModel');
 
 // water_type,water_temperature,water_quantity,companyname
 
@@ -30,6 +31,16 @@ const orderSchema = mongoose.Schema({
         required: true,
         ref: 'Customer'
     },
+    status:{
+        type:String,
+        required:true,
+        defaultValue: 'pending'
+    },
+    worker_id:{
+        type: mongoose.Schema.Types.ObjectId,
+        defaultValue:null,
+        ref:'Worker'
+    }
 });
 
 module.exports = mongoose.model("Order", orderSchema);

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-
 export default function Placeorder({ cookies }) {
     const navigate = useNavigate();
     const { company_name } = useParams();

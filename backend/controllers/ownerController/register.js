@@ -61,7 +61,7 @@ exports.registerUser = asyncHandler(async (req, res) => {
         contact,
         email,
         password: hashPassword,
-        company_id : company._id
+        company_name : cName
     });
 
     if (owner) {

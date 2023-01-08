@@ -32,9 +32,9 @@ const workerApplicationSchema = mongoose.Schema({
         required: [true, "Cant't be blank"],
         match: [/^[(]?[0-9]{3}[)]?[\s\.]?[0-9]{3}[\s\.]?[0-9]{4,6}$/, "is Invalid"]
     },
-    company_id: {
+    company_name: {
         // we are giving type of foregine key 
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.String,
         required: true,
         // ref:'User' this allows user field to work as foregine key
         ref: 'Company'

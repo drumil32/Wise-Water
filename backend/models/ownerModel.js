@@ -26,8 +26,8 @@ const ownerSchema = mongoose.Schema({
         required:[true, "Cant't be blank"],
         match: [/^[(]?[0-9]{3}[)]?[\s\.]?[0-9]{3}[\s\.]?[0-9]{4,6}$/,"is Invalid"]
     },
-    company_id: {
-        type: mongoose.Schema.Types.ObjectId,
+    company_name: {
+        type: mongoose.Schema.Types.String,
         required: true,
         ref: 'Company'
     },

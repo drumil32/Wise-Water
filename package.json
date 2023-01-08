@@ -30,11 +30,15 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-async-handler": "^1.2.0",
+    "fuse": "^0.4.0",
+    "fuse.js": "^6.6.2",
     "generate-password": "^1.7.0",
     "jsonwebtoken": "^9.0.0",
     "moment-timezone": "^0.5.40",
     "mongoose": "^6.8.1",
+    "react-cookie": "^4.1.1",
     "react-router-dom": "^6.6.1",
-    "react-scripts": "^5.0.1"
+    "react-scripts": "^5.0.1",
+    "react-toastify": "^9.1.1"
   }
 }
