@@ -76,7 +76,7 @@ export default function OwnerProfile({ cookies,removeCookies }) {
                 <p>line1 : {companyData.address.pincode}</p>
                 <p>line1 : {companyData.address.state}</p>
             </div>
-            <button onClick={redirectHandler} value="/">Show companies</button>
+            <button onClick={redirectHandler} value="/show-companies">Show companies</button>
             <button onClick={redirectHandler} value="/owner/show-pending-orders">Show pending orders</button>
             <button onClick={handleLogout}>logout</button>
         </>

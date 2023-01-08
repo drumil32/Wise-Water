@@ -60,7 +60,7 @@ export default function CustomerProfile({ cookies,removeCookies }) {
                 <p>line1 : {userData.address.pincode}</p>
                 <p>line1 : {userData.address.state}</p>
             </div>
-            <button onClick={redirectHandler} value="/">Show companies</button>
+            <button onClick={redirectHandler} value="/show-companies">Show companies</button>
             <button onClick={redirectHandler} value="/customer/show-placed-orders">Show placed orders</button>
             <button onClick={handleLogout}>logout</button>
         </>

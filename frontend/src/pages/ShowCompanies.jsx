@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 //  not 100% sure how this code works
 // REASON :- useEffect with useRef
 
-export default function ShowCompanies({cookies}) {
+export default function ShowCompanies({ cookies }) {
 
     const navigate = useNavigate();
     const [companies, setCompanies] = useState(null);
@@ -14,7 +14,7 @@ export default function ShowCompanies({cookies}) {
     const [searchedCompanies, setSearchedCompanies] = useState(null);
     const fuse = useRef(null);
     useEffect(() => {
-        const {token} = cookies;
+        const { token } = cookies;
         const fun = async () => {
             const response = await fetch(`http://localhost:3001/api/user/showCompanies`);
             const userTypeResponse = await fetch(`http://localhost:3001/api/user/userType`, {
@@ -85,8 +85,7 @@ export default function ShowCompanies({cookies}) {
 
     return (
         <div>
-            {searchedCompanies.length !== 0 &&
-                <input type="text" name="query" onChange={(e) => setQuery(e.target.value)} value={query} />}
+            <input type="text" name="query" onChange={(e) => setQuery(e.target.value)} value={query} />
             {
                 searchedCompanies.length !== 0 &&
                 searchedCompanies.map((company, index) => {
@@ -101,15 +100,6 @@ export default function ShowCompanies({cookies}) {
                 })
             }
             {searchedCompanies.length === 0 && <p>no companies found</p>}
-            <div>
-                {'guest' === userType &&
-                    <>
-                        <button onClick={redirectHandler} value="login">login</button>
-                        <button onClick={redirectHandler} value="/customer/register">sign up as customer</button>
-                        <button onClick={redirectHandler} value={"/owner/register"}>sign up as Owner</button>
-                    </>
-                }
-            </div>
         </div>
     )
 }
