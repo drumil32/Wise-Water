@@ -22,7 +22,6 @@ export default function CustomerProfile({ cookies,removeCookies }) {
                 if (data.type === 'error') throw (data.message);
                 console.log(data);
                 setUserData(data.user);
-                // setCompanyData(data.company);
             } catch (error) {
                 navigate('/');
             }

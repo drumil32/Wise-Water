@@ -17,10 +17,6 @@ const workerApplicationSchema = mongoose.Schema({
         type: String,
         required: [true, "can't be blank"],
     },
-    password: {
-        type: String,
-        required: [true, "can't be blank"],
-    },
     applicationdate: {
         type: Date,
         default: dateIndia

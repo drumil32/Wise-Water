@@ -14,8 +14,8 @@ const { generateJWTtoken } = require('../utility/generateJWTtoken');
 // @access  public
 
 exports.loginUser = asyncHandler(async (req, res) => {
-    // console.log(req.body);
-    // console.log('from loginuser')
+    console.log(req.body);
+    console.log('from loginuser')
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -24,15 +24,18 @@ exports.loginUser = asyncHandler(async (req, res) => {
     }
 
     const collection = mapCollectionName(req.body.collectionName);
-
+    console.log(collection);
     const user = await collection.findOne({ email });
+    console.log(user)
     // console.log(user);
     // console.log(collection + "from")
     if (user && (await bcrypt.compare(password, user.password))) {
         res.json({
-            id: user._id,
-            name: user.name,
-            email: user.email,  
+            // seems like on login page we are not using it at all then 
+            // WHY WE SHOULD PASS IT . Hence, I commented this part
+            // id: user._id,
+            // name: user.name,
+            // email: user.email,  
             token: generateJWTtoken(user._id, req.body.collectionName) // whty every time create new token
         });
     } else {
@@ -45,6 +48,7 @@ exports.loginUser = asyncHandler(async (req, res) => {
 // @route   post /api/user/
 // @access  private
 
+// FOR NOW IT IS NOT IN USE
 exports.profileUpdate = asyncHandler(async (req, res) => {
     const {firstname,lastname,address} = req.body;
     const collection = mapCollectionName(req.body.collectionName);

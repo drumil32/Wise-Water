@@ -19,6 +19,7 @@ import ShowPendingOrderList from './pages/ShowPendingOrderList';
 import ShowWorkers from "./pages/ShowWorkers";
 import Home from "./pages/Home";
 import Layout from "./components/Layout";
+import ShowAssignedOrders from './pages/ShowAssignedOrders'
 
 
 function App() {
@@ -56,6 +57,7 @@ function App() {
             <Route path="/owner/profile" element={<OwnerProfile cookies={cookies} removeCookies={handleRemoveCookies} />} />
             <Route path="/owner/show-pending-orders" element={<ShowPendingOrderList cookies={cookies} />} />
             <Route path="/owner/show-workers/:order_id" element={<ShowWorkers cookies={cookies} />} />
+            <Route path="/owner/show-assigned-orders" element={<ShowAssignedOrders cookies={cookies} />} />
 
             {/* show companies */}
             {/* <Route path="/user/show-companies" element={<ShowCompanies/>}/> */}

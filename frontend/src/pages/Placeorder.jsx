@@ -1,9 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 export default function Placeorder({ cookies }) {
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const { token } = cookies;
+        const authenticate = async () => {
+            try {
+                const response = await fetch('http://localhost:3001/api/customer/authenticate', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json, text/plain, */*',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ token })
+                });
+                const data = await response.json();
+                console.log(data)
+                if (data.type === 'error') throw new Error(data.message);
+            } catch (error) {
+                alert('you are not authenticated' + error);
+                navigate('/login');
+            }
+        }
+        authenticate();
+    }, []);
+
     const { company_name } = useParams();
     console.log(company_name);
 
@@ -23,19 +47,19 @@ export default function Placeorder({ cookies }) {
         setFormData(prevState => ({ ...prevState, [name]: value }));
     }
 
-    const [formAddress,setFormAddress] = useState({
-        line1 : '',line2 : '',city:'',pincode:'',state:''
+    const [formAddress, setFormAddress] = useState({
+        line1: '', line2: '', city: '', pincode: '', state: ''
     });
 
-    const handleInputAddress = (e)=>{
-        const {name,value} = e.target;
-        setFormAddress(prevState=>({...prevState,[name]:value}));
+    const handleInputAddress = (e) => {
+        const { name, value } = e.target;
+        setFormAddress(prevState => ({ ...prevState, [name]: value }));
     }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const address = {...formAddress}
-        const order = { ...formData,address };
+        const address = { ...formAddress }
+        const order = { ...formData, address };
 
         const { token } = cookies;
         console.log(order);

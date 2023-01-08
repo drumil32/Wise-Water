@@ -10,5 +10,9 @@ router.post('/register',registerUser);
 router.post('/profile',protect,profile);
 router.post('/placeorder',protect,placeorder);
 router.post('/show-placed-orders',protect,showPlacedOrders);
+router.post('/authenticate',protect,(req,res)=>{
+    console.log('owner in atuhencated')
+    res.json({message:'done'});
+})
 
 module.exports = router;

@@ -18,5 +18,9 @@ router.post('/show-pending-orders',protect,showPendingOrders);
 router.post('/assign-order',protect,assignOrder);
 router.post('/show-assigned-orders',protect,showAssignedOrders);
 router.post('/show-workers',protect,showWorkers);
+router.post('/authenticate',protect,(req,res)=>{
+    console.log('owner in atuhencated')
+    res.json({message:'done'});
+})
 
 module.exports = router;

@@ -29,7 +29,7 @@ export default function Login({setCookies}) {
         body: JSON.stringify(user)
       });
       const data = await response.json();
-      if( data.type ) throw new Error(data.message);
+      if( 'error'===data.type ) throw new Error(data.message);
       console.log(data);
       setCookies('token', data.token);
 
