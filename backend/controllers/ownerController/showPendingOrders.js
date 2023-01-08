@@ -1,6 +1,6 @@
 const Order = require('../../models/orderModel');
 exports.showPendingOrders = async (req,res)=>{
-const pendingOrderList = await Order.find({company_name:req.user.company_name})
+const pendingOrderList = await Order.find({company_name:req.user.company_name,status:"pending"})
 console.log(pendingOrderList)
 if(pendingOrderList){
     res.status(200)

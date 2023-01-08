@@ -2,12 +2,12 @@ const WorkerApplication = require('../../models/workerApplicationModel');
 const asyncHandler = require('express-async-handler');
 const Worker = require('../../models/workerModel');
 const bcrypt = require('bcryptjs');
-const {passwordGen} = require('../../utility/passwordGenerator.js');
+const { passwordGen } = require('../../utility/passwordGenerator.js');
 
-exports.hireWorker = asyncHandler(async (req,res)=>{
+exports.hireWorker = asyncHandler(async (req, res) => {
     console.log('from hire worker')
     // const temp = (req.user.company_id);
-    const workerApplication = {...req.body.workerApplication};
+    const workerApplication = { ...req.body.workerApplication };
     delete workerApplication.applicationdate;
     console.log(workerApplication);
     // console.log(temp);
@@ -22,8 +22,8 @@ exports.hireWorker = asyncHandler(async (req,res)=>{
 
     workerApplication.password = hashPassword;
     {
-        const db_workerApplication = await WorkerApplication.find({company_name:req.user.company_name,email:req.body.workerApplication.email},{_id:0});
-        if (db_workerApplication){
+        const db_workerApplication = await WorkerApplication.find({ company_name: req.user.company_name, email: req.body.workerApplication.email }, { _id: 0 });
+        if (db_workerApplication) {
             // console.log(val);
             // delete workerApplication.company_id
             workerApplication.company_name = req.user.company_name;
@@ -31,14 +31,17 @@ exports.hireWorker = asyncHandler(async (req,res)=>{
             const worker = await Worker.create({
                 ...workerApplication
             });
-            const val = await WorkerApplication.deleteMany({email:worker.email});
 
+            // when owner hire a worker
+            // the all applications related to that user will be removed from workerApplication collection
+            const val = await WorkerApplication.deleteMany({ $or : [{email:worker.email},{contact:worker.contact}] });
+            
             res.status(200);
             res.json({
                 workerApplication,
-                found:true,
+                found: true,
             });
-        }else{
+        } else {
             res.status(400);
             throw new Error('worker application not found');
         }

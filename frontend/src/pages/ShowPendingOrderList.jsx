@@ -43,11 +43,14 @@ export default function ShowPendingOrderList({ cookies }) {
     console.log(e.target);
     navigate(`${e.target.value}`);
   };
-
+// why we delete order.status
+// REASON :- in showOrder componenet there is condataion on this order.status
+// when owner wants to show panding orders then there is no meansing to show order status
   return (
     <>
       {pendingOrderList.length === 0 && <>No Order found</>}
       {pendingOrderList.map((order, index) => {
+        delete order.status
         return (
           
             <div key={index}>

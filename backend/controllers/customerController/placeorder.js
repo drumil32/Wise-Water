@@ -31,6 +31,7 @@ exports.placeorder = asyncHandler(async (req,res) =>{
         water_quantity,
         address,
         company_name : company.name,
+        status : 'pending',
         customer_id : req.user._id,
     });
 

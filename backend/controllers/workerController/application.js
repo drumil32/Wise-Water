@@ -28,7 +28,7 @@ exports.workerApplication = asyncHandler(async (req, res) => {
     }
 
     // Check if user already exsist
-
+    // MEANING :- if user already applied for this company then don't allow to apply again
     const workerExists = await WorkerApplication.findOne({ $or: [{ email, company_name: companyname }, { contact: contact, company_name: companyname }] });
     if (workerExists) {
         res.status(400);

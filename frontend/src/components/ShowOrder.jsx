@@ -13,6 +13,7 @@ export default function ShowOrder({order}) {
             <p>city {order.address.city}</p>
             <p>pincde {order.address.pincode}</p>
             <p>state {order.address.state}</p>
+            {order.status && <p>status {order.status}</p>}
         </div>
     )
 }

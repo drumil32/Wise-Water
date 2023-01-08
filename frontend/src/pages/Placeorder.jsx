@@ -52,7 +52,7 @@ export default function Placeorder({ cookies }) {
             const data = await response.json();
             console.log(data)
             if (data.type === 'error') throw new Error(data.message);
-            navigate('/');
+            navigate('/show-companies')
         } catch (error) {
             toast.error(error.message);
         }
