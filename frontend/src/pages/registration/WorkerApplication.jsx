@@ -37,7 +37,7 @@ export default function WorkerApplication() {
       console.log(response);
       const data = await response.json();
       if (data.type === 'error') throw new Error(data.message);
-      navigate('/');
+      navigate('/show-companies');
     } catch (error) {
       toast.error(error.message);
     }

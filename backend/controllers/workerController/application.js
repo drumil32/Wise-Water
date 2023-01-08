@@ -2,7 +2,6 @@ const bcrypt = require('bcryptjs');
 const asyncHandler = require('express-async-handler');
 const WorkerApplication = require('../../models/workerApplicationModel');
 const Company = require('../../models/companyModel');
-const {passwordGen} = require('../../utility/passwordGenerator');
 
 // registerUser registers any user
 // @desc    worker can apply for job to company 
@@ -10,46 +9,39 @@ const {passwordGen} = require('../../utility/passwordGenerator');
 // @access  public
 
 exports.workerApplication = asyncHandler(async (req, res) => {
-    const { firstname, email, lastname, contact, companyname} = req.body;
-
-    const password = passwordGen(8);
+    const { firstname, email, lastname, contact, companyname } = req.body;
 
     if (!firstname || !email || !lastname || !contact || !companyname) {
         res.status(400);
         throw new Error('Invalid Credential');
     }
-    else if( contact.length > 10){
+    else if (contact.length > 10) {
         res.status(400);
         throw new Error('Invalid contact');
     }
 
-    const company = await Company.findOne({ name:companyname });
+    const company = await Company.findOne({ name: companyname });
     console.log(company);
-    if( null===company ){
+    if (null === company) {
         res.status(401);
         throw new Error('company is not exists');
     }
 
     // Check if user already exsist
-    const workerExists = await WorkerApplication.findOne({ email });
+
+    const workerExists = await WorkerApplication.findOne({ $or: [{ email, company_name: companyname }, { contact: contact, company_name: companyname }] });
     if (workerExists) {
         res.status(400);
         console.log(workerExists);
-        throw new Error('Email is Already in exists');
+        throw new Error(`You already applied for ${companyname}`);
     }
-
-    console.log(password);
-
-    const salt = await bcrypt.genSalt(10);
-    const hashPassword = await bcrypt.hash(password, salt);
 
     const worker = await WorkerApplication.create({
         firstname,
         lastname,
         contact,
         email,
-        password: hashPassword,
-        company_name:companyname
+        company_name: companyname
     });
 
     if (worker) {
@@ -58,7 +50,7 @@ exports.workerApplication = asyncHandler(async (req, res) => {
             name: worker.name,
             email: worker.email,
         });
-    }else{
+    } else {
         res.status(400);
         throw new Error('Invalid user data');
     }

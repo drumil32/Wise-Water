@@ -77,12 +77,6 @@ export default function ShowCompanies({ cookies }) {
         navigate(`/customer/placeorder/${e.target.value}`);
     }
 
-    const redirectHandler = (e) => {
-        e.preventDefault();
-        console.log(e.target);
-        navigate(`${e.target.value}`);
-    }
-
     return (
         <div>
             <input type="text" name="query" onChange={(e) => setQuery(e.target.value)} value={query} />

@@ -23,7 +23,8 @@ exports.workerApplication = asyncHandler(async (req, res) => {
         throw new Error('Invalid contact');
     }
     // Check if user already exsist
-    const workerExists = await Worker.findOne({ email });
+    
+    const workerExists = await Worker.findOne({ $or : [{email:email},{contact:contact}] });
     if (workerExists) {
         res.status(400);
         console.log(workerExists);
