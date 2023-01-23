@@ -1,80 +1,82 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Spinner from '../components/Spinner';
 import Fuse from 'fuse.js';
+import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+
+import { giveCompaniesData } from '../actions/general/giveCompaniesData';
+import { giveUserType } from '../actions/general/giveUserType';
 
 //  not 100% sure how this code works
 // REASON :- useEffect with useRef
 
+// now it seems like i am able to understand how useRef is works
+// and changed comapnies object from useState hook to useRef hook
+// REASON :- optimization
+
 export default function ShowCompanies({ cookies }) {
 
     const navigate = useNavigate();
-    const [companies, setCompanies] = useState(null);
+    const companies = useRef(null);
     const [userType, setUserType] = useState(null);
     const [searchedCompanies, setSearchedCompanies] = useState(null);
     const fuse = useRef(null);
+
     useEffect(() => {
         const { token } = cookies;
-        const fun = async () => {
-            const response = await fetch(`http://localhost:3001/api/user/showCompanies`);
-            const userTypeResponse = await fetch(`http://localhost:3001/api/user/userType`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ token }),
-            });
-            const data = await response.json();
-            const typeOfUser = await userTypeResponse.json();
-            console.log(typeOfUser);
-            setUserType(typeOfUser.userType);
-            fuse.current = new Fuse(data.companies, {
+        const fetchData = async () => {
+            var response = await giveCompaniesData();
+
+            if ('error'===response.type) {
+                alert(response.error);
+                return;
+            }
+            const companiesData = [...response.companiesData];
+
+            response = await giveUserType(token);
+            if ('error'===response.type) {
+                alert(response.error);
+                return;
+            }
+            const userType = response.userType;
+
+            fuse.current = new Fuse(companiesData, {
                 keys: [
                     'name',
                     'address',
                 ],
                 includeScore: true
             });
-            // console.log(fuse);   
-            setCompanies(data.companies);
-            setSearchedCompanies(data.companies);
+            companies.current = companiesData;
+            setSearchedCompanies(companiesData);
+            setUserType(userType);
         }
-        fun();
-    }, []);
+        fetchData();
+    }, [cookies]);
 
     const [query, setQuery] = useState('');
 
     useEffect(() => {
         if (fuse.current) {
             if ('' !== query) {
-                console.log(query)
                 const results = fuse.current.search(query);
-                const temp = [];
+                const companies = [];
                 results.forEach(result => {
-                    temp.push(result.item);
+                    companies.push(result.item);
                 });
-                console.log(temp);
-                setSearchedCompanies(temp);
-            } else
                 setSearchedCompanies(companies);
-        } else {
-            console.log("here")
+            } else
+                setSearchedCompanies(companies.current);
         }
-    }, [fuse, query]);
+    }, [query]);
 
-    if (null === companies)
+    if (null === searchedCompanies || null===userType)
         return (<Spinner />);
 
-    const handleApply = (e) => {
+    const redirectHandler = (e) => {
         e.preventDefault();
         console.log(e.target);
-        navigate(`/worker/application/${e.target.value}`);
-    }
-
-    const handlePlaceorder = (e) => {
-        e.preventDefault();
-        console.log(e.target);
-        navigate(`/customer/placeorder/${e.target.value}`);
+        navigate(`${e.target.value}`);
     }
 
     return (
@@ -87,8 +89,8 @@ export default function ShowCompanies({ cookies }) {
                     return (
                         <p key={index} >
                             {company.name}
-                            {'guest' === userType && <button value={company.name} onClick={handleApply}>apply</button>}
-                            {'customer' === userType && <button value={company.name} onClick={handlePlaceorder}>place order</button>}
+                            {'guest' === userType && <button value={`/worker/application/${company.name}`} onClick={redirectHandler}>apply</button>}
+                            {'customer' === userType && <button value={`/customer/placeorder/${company.name}`} onClick={redirectHandler}>place order</button>}
                         </p>
                     )
                 })

@@ -10,7 +10,7 @@ const asyncHandler = require('express-async-handler');
 
 exports.showPlacedOrders = asyncHandler(async (req, res) => {
     console.log('from show placed orders')
-    const orderList = await Order.find({ customer_id: req.user._id });
+    const orderList = await Order.find({ customer_id: req.userid });
     console.log(orderList)
     if (orderList) {
         res.json({

@@ -13,7 +13,7 @@ exports.placeorder = asyncHandler(async (req,res) =>{
     console.log('this is')
     console.log(req.body.order);
     console.log(address);
-    console.log(req.user);
+    console.log(req.userid);
     if( ''===water_type || ''===water_temperature || ''===water_quantity || ''===companyname ){
         res.status(400);
         throw new Error('please provide all the details');
@@ -32,7 +32,7 @@ exports.placeorder = asyncHandler(async (req,res) =>{
         address,
         company_name : company.name,
         status : 'pending',
-        customer_id : req.user._id,
+        customer_id : req.userid,
     });
 
     if( order ){

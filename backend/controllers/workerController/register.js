@@ -47,11 +47,7 @@ exports.workerApplication = asyncHandler(async (req, res) => {
 
     if (worker) {
         res.status(201).json({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            // is this required
-            token:generateJWTtoken(user._id,"Worker")
+            _id: worker._id,
         });
     }else{
         res.status(400);

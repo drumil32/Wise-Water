@@ -2,17 +2,16 @@ const Company = require('../../models/companyModel');
 const asyncHandler = require('express-async-handler');
 
 exports.showCompanies = asyncHandler(async (req, res) => {
-    const cmps = await Company.find({}, { _id: 0 });
-    if (cmps) {
+    const companies = await Company.find({}, { _id: 0 });
+    if (companies) {
         res.status(200);
         res.json({
-            companies: cmps,
-            found: true,
+            companies,
         });
     } else {
         res.status(200);
         res.json({
-            found: false,
+            companies : []
         });
     }
 })

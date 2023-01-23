@@ -6,6 +6,7 @@ const { passwordGen } = require('../../utility/passwordGenerator.js');
 
 exports.hireWorker = asyncHandler(async (req, res) => {
     console.log('from hire worker')
+    console.log(req.body);
     // const temp = (req.user.company_id);
     const workerApplication = { ...req.body.workerApplication };
     delete workerApplication.applicationdate;
@@ -22,11 +23,11 @@ exports.hireWorker = asyncHandler(async (req, res) => {
 
     workerApplication.password = hashPassword;
     {
-        const db_workerApplication = await WorkerApplication.find({ company_name: req.user.company_name, email: req.body.workerApplication.email }, { _id: 0 });
+        const db_workerApplication = await WorkerApplication.find({ company_name: workerApplication.company_name, email: workerApplication.email }, { _id: 0 });
         if (db_workerApplication) {
             // console.log(val);
             // delete workerApplication.company_id
-            workerApplication.company_name = req.user.company_name;
+            // workerApplication.company_name = req.user.company_name;
             console.log(workerApplication);
             const worker = await Worker.create({
                 ...workerApplication
@@ -38,8 +39,7 @@ exports.hireWorker = asyncHandler(async (req, res) => {
             
             res.status(200);
             res.json({
-                workerApplication,
-                found: true,
+                message : 'success',
             });
         } else {
             res.status(400);

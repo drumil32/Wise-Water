@@ -6,6 +6,7 @@ exports.assignOrder = async (req, res) => {
   console.log(req.body.worker_id);
 
   const order = await Order.findOne({ _id: order_id });
+  console.log(order)
   if (null === order) throw Error("Order is not exists");
   else {
     const updatedOrder = await Order.updateOne(

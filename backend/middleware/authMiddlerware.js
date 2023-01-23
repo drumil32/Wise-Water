@@ -1,18 +1,15 @@
 const asyncHandler = require('express-async-handler');
-const { mapCollectionName } = require('../utility/mappingCollection');
 const { decodeJWTtoken } = require('../utility/decodeJWTtoken');
+const { mapCollectionName } = require('../utility/mappingCollection');
 
 const protect = asyncHandler(async (req, res, next) => {
-    console.log(req.body);
-    console.log('from protect');
-    const decoded = decodeJWTtoken(req, res);
-
+    console.log("from auth middleware")
+    const { _id, collectionName } = decodeJWTtoken(req, res);
+    const collection = mapCollectionName(collectionName);
+    console.log(collection)
+    console.log(_id)
     try {
-        const collection = mapCollectionName(decoded.collectionName);
-        req.user = await collection.findById(decoded.id).select('-password');
-
-        console.log('from auth middlewear',req.user)
-        console.log('from protect is done');
+        req.userid = await collection.findOne({ _id }).select('_id');
         next();
     } catch (error) {
         console.log(error);

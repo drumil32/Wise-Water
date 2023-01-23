@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const asyncHandler = require('express-async-handler');
 const Owner = require('../../models/ownerModel');
 const Company = require('../../models/companyModel');
-const {generateJWTtoken} = require('../../utility/generateJWTtoken');
+const { generateJWTtoken } = require('../../utility/generateJWTtoken');
 
 // registerUser registers any user
 // @desc    registerUser :- register owner check company id and company name
@@ -10,26 +10,12 @@ const {generateJWTtoken} = require('../../utility/generateJWTtoken');
 // @access  public
 
 exports.registerUser = asyncHandler(async (req, res) => {
-    const { firstname, lastname, email, password, confirmPassword , contact, cName, cEmail,cContact,address:cAddress, cServiceTime } = req.body;
-    console.log(req.body)
-    console.log("from owner register")
-    if (!firstname || !lastname || !email || !password  || !confirmPassword || !contact || !cName || !cEmail || !cContact || !cAddress || !cServiceTime) {
-        res.status(400);
-        throw new Error('Invalid Credential');
-    }
-    else if( contact.length > 10 || cContact.length > 10){
-        res.status(400);
-        throw new Error('Invalid contact');
-    }
-    else if( password !== confirmPassword){
-        res.status(400);
-        throw new Error('Invalid password');
-    }else if( cServiceTime ){
-        // validation is required
-    }
+    const { userData, companyData } = req.body;
 
-    // Check if user already exsist
-    const userExists = await Owner.findOne({ $or : [{email:email},{contact:contact}] });
+    checkValidation(userData, companyData, res);
+
+    // // Check if user already exsist
+    const userExists = await Owner.findOne({ $or: [{ email: userData.email }, { contact: userData.contact }] });
     console.log(userExists);
     if (userExists) {
         res.status(400);
@@ -37,43 +23,67 @@ exports.registerUser = asyncHandler(async (req, res) => {
         throw new Error('Owner is already exists');
     }
 
-    const companyExists = await Company.findOne({ $or:[{email:cEmail},{name:cName},{contact:cContact}] });
-    if( companyExists ){
+    const companyExists = await Company.findOne({ $or: [{ email: companyData.email }, { name: companyData.name }, { contact: companyData.contact }] });
+    if (companyExists) {
         res.status(400);
         console.log(companyExists);
         throw new Error('company is already exists');
     }
 
     const company = await Company.create({
-        name : cName,
-        email : cEmail,
-        contact : cContact,
-        address : cAddress,
-        serviceTime : cServiceTime,
+        name: companyData.name,
+        email: companyData.email,
+        contact: companyData.contact,
+        address: companyData.address,
+        serviceTime: companyData.serviceTime,
     })
 
     const salt = await bcrypt.genSalt(10);
-    const hashPassword = await bcrypt.hash(password, salt);
+    const hashPassword = await bcrypt.hash(userData.password, salt);
 
     const owner = await Owner.create({
-        firstname,
-        lastname,
-        contact,
-        email,
+        firstname: userData.firstname,
+        lastname: userData.lastname,
+        contact: userData.contact,
+        email: userData.email,
         password: hashPassword,
-        company_name : cName
+        company_name: companyData.name
     });
 
     if (owner) {
         res.status(201).json({
-            // _id: owner._id,
-            // name: owner.name,
-            // email: owner.email,
-            // is this required
-            token:generateJWTtoken(owner._id,"Owner")
+            token: generateJWTtoken(owner._id, "Owner"),
+            type : 'data'
         });
-    }else{
+    } else {
         res.status(400);
-        throw new Error('Invalid user data');
+        throw new Error('some thing went wrong please try again');
     }
 });
+
+
+function checkValidation(userData, companyData, res) {
+
+
+    const { firstname, lastname, email, password, confirmPassword, contact, } = userData;
+
+    const { name: companyName, email: companyEmail, contact: companyContact, serviceTime: companyServiceTime, address: companyAddress } = companyData;
+
+    if (!firstname || !lastname || !email || !password || !confirmPassword || !contact || !companyName || !companyEmail || !companyContact || !companyServiceTime || !companyAddress.line1 || !companyAddress.line2 || !companyAddress.city || !companyAddress.pincode || !companyAddress.state) {
+        res.status(400);
+        throw new Error('please provide all the details');
+    }
+    else if (contact.length !== 10 || companyContact.length !== 10) {
+        res.status(400);
+        throw new Error('contact length must be 10');
+    }
+    else if (password !== confirmPassword) {
+        res.status(400);
+        throw new Error('password and confirm password must be the same');
+    } else if (companyServiceTime) {
+        // validation is required
+    } else if (companyAddress) {
+        // validation is required
+        // for pincode
+    }
+}
