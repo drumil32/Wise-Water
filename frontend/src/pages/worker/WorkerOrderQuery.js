@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Spinner from '../../components/Spinner';
-import ShowOrder from "../../components/ShowOrder";
+import Spinner from '../Spinner';
+import ShowOrder from "../shared/order/Order";
 import { toast } from 'react-toastify';
 
 export default function WorkerOrderQuery({ cookies }) {
@@ -29,7 +29,7 @@ export default function WorkerOrderQuery({ cookies }) {
             }
         }
         fetchOrder();
-    }, []);
+    }, [order_id, token]);
 
     if (null === order) {
         return <Spinner />;

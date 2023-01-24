@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
-import { registerUser } from '../../actions/general/registerUser';
+import { registerUser } from '../../actions/shared/registerUser';
 
 export default function WorkerApplicationFrom() {
   const navigate = useNavigate();

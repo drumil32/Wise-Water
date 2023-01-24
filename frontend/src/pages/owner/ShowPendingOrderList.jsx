@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import ShowOrder from "../../components/ShowOrder";
-import Spinner from "../../components/Spinner";
+import ShowOrder from "../shared/order/Order";
+import Spinner from '../Spinner';
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { givePendingOrders } from "../../actions/orders/givePendingOrders";
+import { givePendingOrders } from "../../actions/owner/givePendingOrders";
 
 export default function ShowPendingOrderList({ cookies }) {
   const navigate = useNavigate();

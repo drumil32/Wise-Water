@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import Spinner from '../../components/Spinner';
-import ShowOrder from '../../components/ShowOrder';
+import Spinner from '../Spinner';
+import ShowOrder from '../shared/order/Order';
 import { useNavigate } from 'react-router-dom';
-import { givePlacedOrders } from '../../actions/orders/givePlacedOrders';
+import { givePlacedOrders } from '../../actions/customer/givePlacedOrders';
 
 export default function ShowPlacedorderList({ cookies }) {
     const [placedOrderList, setPlacedOrderList] = useState(null);
@@ -36,13 +36,11 @@ export default function ShowPlacedorderList({ cookies }) {
             {
                 placedOrderList.map((order, index) => {
                     return (
-
                         <div key={index}>
                             <h2 >order number {index}</h2>
                             <ShowOrder order={order} />
                             {order.status !== "delievered" && order.status !== "in-query" && <button value={`/customer/order/track/${order._id}`} onClick={handleTrackOrder}>Track Order</button>}
                         </div>
-
                     )
                 })
             }

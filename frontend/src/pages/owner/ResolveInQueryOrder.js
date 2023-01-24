@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate,useParams } from 'react-router-dom';
-import Spinner from '../../components/Spinner';
+import Spinner from '../Spinner';
 import { toast } from 'react-toastify';
-import ShowOrder from '../../components/ShowOrder';
+import ShowOrder from '../shared/order/Order';
 export default function ResolveInQueryOrder({ cookies }) {
     const {order_id} = useParams();
     const navigate = useNavigate();

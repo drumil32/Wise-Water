@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
-import Spinner from "../../components/Spinner";
-import ShowOrder from "../../components/ShowOrder";
-import ShowAssignedWorkerDetails from "../../components/ShowAssignedWorkerDetails";
-import { giveDetailsToTrackOrder } from "../../actions/orders/giveDetailsToTrackOrder";
+import Spinner from '../Spinner';
+import ShowOrder from "../shared/order/Order";
+import { giveDetailsToTrackOrder } from "../../actions/customer/giveDetailsToTrackOrder";
 
 export default function TrackOrder({ cookies }) {
   const { order_id } = useParams();
@@ -16,7 +15,7 @@ export default function TrackOrder({ cookies }) {
 
     const fetchData = async () => {
       const { token } = cookies;
-      const response =await giveDetailsToTrackOrder(token, order_id);
+      const response = await giveDetailsToTrackOrder(token, order_id);
       if ('error' === response.type) {
         alert(response.error);
         navigate('/login');
@@ -38,7 +37,12 @@ export default function TrackOrder({ cookies }) {
           <div key={index}>
             <ShowOrder order={order} />
             {order.status !== "pending" &&
-              <ShowAssignedWorkerDetails worker={worker} />
+              <div>
+                <p>Worker name: {worker[0].firstname} {worker[0].lastname}</p>
+                <p>Worker Contact: {worker[0].contact}</p>
+                <p>Worker Email: {worker[0].email}</p>
+              </div>
+              // <ShowAssignedWorkerDetails worker={worker} />
             }
           </div>
         );

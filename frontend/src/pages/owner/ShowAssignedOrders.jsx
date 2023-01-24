@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Spinner from '../../components/Spinner';
-import ShowOrder from "../../components/ShowOrder";
-import { giveAssignedOrders } from '../../actions/orders/giveAssignedOrders';
+import Spinner from '../Spinner';
+import ShowOrder from "../shared/order/Order";
+import { giveAssignedOrders } from '../../actions/owner/giveAssignedOrders';
 
 export default function ShowAssignedOrders({ cookies }) {
 

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
-import Spinner from "../../components/Spinner";
-import { fetchDataFromBackend } from "../../actions/general/fetchDataFromBackend";
+import Spinner from '../Spinner';
 import { giveWorkerDetails } from "../../actions/owner/giveWorkerDetails";
-import { assignOrder } from "../../actions/orders/assignOrder";
+import { assignOrder } from "../../actions/owner/assignOrder";
 
 export default function ShowWorkers({ cookies }) {
   const { order_id } = useParams();
@@ -45,7 +44,7 @@ export default function ShowWorkers({ cookies }) {
         navigate('/owner/show-pending-orders');
       }
     } catch (error) {
-      toast(error);
+      alert(error);
     }
   };
   return (

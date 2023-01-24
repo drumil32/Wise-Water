@@ -5,16 +5,16 @@ import { useCookies } from 'react-cookie';
 import 'react-toastify/dist/ReactToastify.css';
 
 // guest user
-import Home from "./pages/guestuser/Home";
-import Login from "./pages/guestuser/login";
-import WorkerApplicationFrom from './pages/guestuser/WorkerApplicationFrom';
+import Home from "./pages/guestUser/Home";
+import Login from "./pages/guestUser/login";
+import WorkerApplicationFrom from "./pages/guestUser/WorkerApplicationFrom";
+import ShowCompanies from "./pages/guestUser/ShowCompanies";
 
 // customer
-import CustomerRegistration from './pages/register/CustomerRegistration';
-import Placeorder from './pages/customer/placeorder/Placeorder';
+import CustomerRegistration from './pages/customer/CustomerRegistration';
+import Placeorder from './pages/customer/Placeorder';
 import ShowPlacedorderList from './pages/customer/ShowPlacedorderList';
 import TrackOrder from "./pages/customer/TrackOrder";
-// import ShowCustomerDetails from "./components/ShowCustomerDetails";
 import ShowCustomer from './pages/owner/ShowCustomer'
 
 // worker
@@ -24,18 +24,18 @@ import WorkerOrderQuery from "./pages/worker/WorkerOrderQuery";
 
 // owner
 import ShowInQueryOrderList from "./pages/owner/ShowInQueryOrderList";
-import OwnerRegistration from './pages/register/OwnerRegistration';
+import OwnerRegistration from './pages/owner/OwnerRegistration';
 import ShowWorkerApplications from './pages/owner/ShowWorkerApplications';
 import ShowPendingOrderList from './pages/owner/ShowPendingOrderList';
 import ShowWorkers from "./pages/owner/ShowWorkers";
 import ShowAssignedOrders from './pages/owner/ShowAssignedOrders'
 import ResolveInQueryOrder from "./pages/owner/ResolveInQueryOrder";
 
-import Profile from './pages/profile/Profile'
+
+import Profile from "./pages/shared/profile/Profile";
 
 // general pages
 import NotFound from './pages/NotFound';
-import ShowCompanies from './pages/ShowCompanies';
 
 function App() {
   const [cookies, setCookies, removeCookies] = useCookies(['token']);
@@ -56,6 +56,8 @@ function App() {
             {/* guestuser */}
             <Route index element={<Home />} />
             <Route path="/login" element={<Login setCookies={handleSetCookies} />} />
+            <Route path="/worker/application/:companyname" element={<WorkerApplicationFrom />} />
+            <Route path="/show-companies" element={<ShowCompanies cookies={cookies} />} />
 
             {/* customer */}
             <Route path="/customer" >
@@ -68,7 +70,6 @@ function App() {
 
             {/* worker   */}
             <Route path="/worker">
-              <Route path="/worker/application/:companyname" element={<WorkerApplicationFrom />} />
               <Route path="/worker/orders/assigned" element={<WorkerAssignedOrders cookies={cookies} />} />
               <Route path="/worker/orders/delievered" element={<WorkerDelieveredOrderes cookies={cookies} />} />
               <Route path="/worker/order/assigned/query/:order_id" element={<WorkerOrderQuery cookies={cookies} />} />
@@ -89,7 +90,7 @@ function App() {
             </Route>
 
             {/* show companies   */}
-            <Route path="/show-companies" element={<ShowCompanies cookies={cookies} />} />
+            
 
             {/* page not found   */}
             <Route path="*" element={<NotFound />} />

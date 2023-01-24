@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { loginUser } from '../../actions/general/loginUser';
+import { loginUser } from '../../actions/guestUser/loginUser';
 
 export default function Login({ setCookies }) {
   const navigate = useNavigate();

@@ -18,7 +18,6 @@ export default function Layout({ children }) {
                     </li>
                 </ul>
             </nav>
-
             <Outlet />
         </>
     );

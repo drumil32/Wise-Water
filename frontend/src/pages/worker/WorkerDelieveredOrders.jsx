@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Spinner from '../../components/Spinner';
-import ShowOrder from "../../components/ShowOrder";
+import Spinner from '../Spinner';
+import ShowOrder from "../shared/order/Order";
 import { toast } from 'react-toastify';
-import { giveWorkerDelieveredOrders } from '../../actions/orders/giveWorkerDelieveredOrders';
+import { giveWorkerDelieveredOrders } from '../../actions/worker/giveWorkerDelieveredOrders';
 
 export default function ShowAssignedOrders({ cookies }) {
     const navigate = useNavigate();

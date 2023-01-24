@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Spinner from '../../components/Spinner';
+import Spinner from '../Spinner';
 import ShowInQueryOrders from '../../components/ShowInQueryOrders';
 import { toast } from 'react-toastify';
 

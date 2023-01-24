@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
-import Spinner from '../../components/Spinner';
+import Spinner from '../Spinner';
 import Fuse from 'fuse.js';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { giveWorkerApplications } from '../../actions/owner/giveWorkerApplications';
 import { hireWorker } from '../../actions/owner/hireWorker';
+import UserDetails from '../shared/details/UserDetails';
 
 //  not 100% sure how this code works
 // REASON :- useEffect with useRef
@@ -96,10 +97,7 @@ function ShowWorkerApplications({ cookies }) {
                             return (
                                 <div key={index}>
                                     <h2>application {index}</h2>
-                                    <p>first Name :- {workerApplication.firstname}</p>
-                                    <p>last Name :- {workerApplication.lastname}</p>
-                                    <p>contact :- {workerApplication.contact}</p>
-                                    <p>email :- {workerApplication.email}</p>
+                                    <UserDetails userData={workerApplication} />
                                     <button onClick={handleHiring} value={index}>hire worker</button>
                                 </div>
                             )
