@@ -16,6 +16,7 @@ function CustomerRegistration({ setCookies }) {
         e.preventDefault();
         const customer = { ...userData, address : {...userData.address} };
         const response = await registerUser('customer',customer);
+        console.log(response);
         if( 'error'===response.type ){
             alert(response.error);
         }else{

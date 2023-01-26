@@ -8,40 +8,43 @@ import { deliverOrder } from '../../actions/worker/deliverOrder';
 
 export default function WorkerAssignedOrders({ cookies }) {
     const navigate = useNavigate();
-    const [assignedOrders, setAssignedOrders] = useState(null);
-    const {token} = cookies;
+    const [assignedOrders, setAssignedOrders] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const { token } = cookies;
     useEffect(() => {
-        const fetchData = async()=>{
+        const fetchData = async () => {
+            setLoading(true);
             const response = await giveWorkerAssignedOrders(token);
-            if( 'error'===response.type ){
+            if ('error' === response.type) {
                 alert(response.error);
                 navigate('/login');
-            }else{
+            } else {
                 setAssignedOrders(response.assignedOrders);
             }
+            setLoading(false);
         }
         fetchData();
     }, [token]);
 
-    if (null === assignedOrders) {
+    if (true === loading) {
         return <Spinner />;
     }
 
-    const handleDelieverOrder = async (e)=>{
+    const handleDelieverOrder = async (e) => {
         e.preventDefault();
         console.log(e.target.value);
-        const response = await deliverOrder(token,e.target.value);
-        if( 'error'===response.type ){
+        const response = await deliverOrder(token, e.target.value);
+        if ('error' === response.type) {
             alert(response.error);
-        }else{
+        } else {
             setAssignedOrders(response.assignedOrders);
         }
     }
-const handleAssignedOrderQuery = (e)=>{
-    e.preventDefault();
-    console.log("Order no: ",e.target.value);
-    navigate(`/worker/order/assigned/query/${e.target.value}`)
-}
+    const handleAssignedOrderQuery = (e) => {
+        e.preventDefault();
+        console.log("Order no: ", e.target.value);
+        navigate(`/worker/order/assigned/query/${e.target.value}`)
+    }
     return (
         <div>
             {0 === assignedOrders.length && <p>no order are assigned</p>}

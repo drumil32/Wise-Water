@@ -5,16 +5,12 @@ const Worker = require('../../models/workerModel');
 exports.profile = asyncHandler(async (req, res) => {
     console.log('came to profile');
 
-    const userData = await Worker.findOne({ _id: req.userid },{_id:0,password:0});
+    const userData = await Worker.findOne({ _id: req.userid }, { _id: 0, password: 0 });
 
     const companyData = await Company.findOne({ name: userData.company_name });
 
-    
-
-        console.log('profile')
+    console.log('profile')
     console.log('came to worker profile');
-    // console.log(obj);
-    // console.log(obj);
     res.status(200).json({
         userData,
         companyData

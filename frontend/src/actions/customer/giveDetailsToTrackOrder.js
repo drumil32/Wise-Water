@@ -12,8 +12,9 @@ const giveDetailsToTrackOrder = async (token,order_id) => {
             }
         );
         const data = await response.json();
-        if ('error' === data.type)
-            throw new Error(data.message);
+        console.log(data);
+        if (undefined !== data.error)
+            throw new Error(data.error);
         else {
             return {
                 type: 'data',

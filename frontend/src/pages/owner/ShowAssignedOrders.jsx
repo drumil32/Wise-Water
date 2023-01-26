@@ -7,24 +7,27 @@ import { giveAssignedOrders } from '../../actions/owner/giveAssignedOrders';
 export default function ShowAssignedOrders({ cookies }) {
 
     const navigate = useNavigate();
-    const [assignedOrders, setAssignedOrders] = useState(null);
+    const [assignedOrders, setAssignedOrders] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const { token } = cookies;
 
         const fetchData = async () => {
+            setLoading(true);
             const response = await giveAssignedOrders(token);
             if ('error' === response.type) {
                 alert(response.error);
                 navigate('/login');
             }
             setAssignedOrders(response.assignedOrders);
+            setLoading(false);
         };
         fetchData();
 
     }, [cookies]);
 
-    if (null === assignedOrders) {
+    if (true===loading) {
         return <Spinner />;
     }
 

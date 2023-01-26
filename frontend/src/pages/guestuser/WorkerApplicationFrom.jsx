@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
 import { registerUser } from '../../actions/shared/registerUser';
+import { submitJobApplication } from '../../actions/guestUser/submitJobApplication'
 
 export default function WorkerApplicationFrom() {
   const navigate = useNavigate();
@@ -18,9 +19,8 @@ export default function WorkerApplicationFrom() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const worker = { ...userData };
 
-    const response = await registerUser('worker', worker);
+    const response = await submitJobApplication({ ...userData });
     if ('error' === response.type) {
       alert(response.error);
     } else {

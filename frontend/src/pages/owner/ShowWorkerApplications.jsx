@@ -19,15 +19,17 @@ import UserDetails from '../shared/details/UserDetails';
 function ShowWorkerApplications({ cookies }) {
 
     const navigate = useNavigate();
-    const [searchedWorkerApplications, setSearchedWorkerApplications] = useState(null);
+    const [searchedWorkerApplications, setSearchedWorkerApplications] = useState([]);
     const [query, setQuery] = useState('');
-    const workerApplications = useRef(null);
+    const workerApplications = useRef([]);
     const fuse = useRef(null);
+    const [loading, setLoading] = useState(false);
     const { token } = cookies;
 
     useEffect(() => {
 
         const fetchData = async () => {
+            setLoading(true);
             const { token } = cookies;
             const response = await giveWorkerApplications(token);
             if ('error' === response.type) {
@@ -45,6 +47,7 @@ function ShowWorkerApplications({ cookies }) {
                 });
                 setSearchedWorkerApplications(workerApplications.current);
             }
+            setLoading(false);
         }
         fetchData();
     }, []);
@@ -67,7 +70,7 @@ function ShowWorkerApplications({ cookies }) {
         }
     }, [fuse, query]);
 
-    if (null === searchedWorkerApplications)
+    if (true===loading)
         return (<Spinner />);
 
     const handleHiring = async (e) => {

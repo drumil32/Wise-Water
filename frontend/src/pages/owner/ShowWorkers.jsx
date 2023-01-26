@@ -9,9 +9,11 @@ export default function ShowWorkers({ cookies }) {
   const { order_id } = useParams();
   const navigate = useNavigate();
   const [showWorkers, setShowWorkers] = useState([]);
+  const [loading, setLoading] = useState(false);
   console.log(order_id);
   useEffect(() => {
-    const fun = async () => {
+    const fetchData = async () => {
+      setLoading(true);
       const { token } = cookies;
 
       const response = await giveWorkerDetails(token);
@@ -22,12 +24,12 @@ export default function ShowWorkers({ cookies }) {
       } else {
         setShowWorkers(response.workers);
       }
-
+      setLoading(false);
     };
-    fun();
+    fetchData();
   }, []);
 
-  if (null === showWorkers) {
+  if (true===loading) {
     return <Spinner />;
   }
   const assignHandler = async (e) => {

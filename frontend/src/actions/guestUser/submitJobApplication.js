@@ -1,20 +1,20 @@
-const placeOrder = async (token, order) => {
+const submitJobApplication = async (userData) => {
     try {
-        const response = await fetch(`/api/customer/placeorder`, {
+        const response = await fetch(`/api/user/submit-job-application`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({order})
+            body: JSON.stringify(userData)
         });
         const data = await response.json();
-        if ( undefined!== data.error)
+        console.log(data);
+        if (undefined !== data.error)
             throw new Error(data.error.errorMessage);
         else {
             return {
-                type: 'success',
+                type: 'success'
             }
         }
     } catch (error) {
@@ -25,4 +25,4 @@ const placeOrder = async (token, order) => {
     }
 }
 
-export { placeOrder };
+export { submitJobApplication };

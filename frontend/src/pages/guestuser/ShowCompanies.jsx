@@ -17,13 +17,15 @@ import { giveUserType } from '../../actions/guestUser/giveUserType';
 export default function ShowCompanies({ cookies }) {
 
     const navigate = useNavigate();
-    const companies = useRef(null);
-    const [userType, setUserType] = useState(null);
-    const [searchedCompanies, setSearchedCompanies] = useState(null);
+    const companies = useRef([]);
+    const [userType, setUserType] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [searchedCompanies, setSearchedCompanies] = useState([]);
     const fuse = useRef(null);
 
     useEffect(() => {
         const { token } = cookies;
+        setLoading(true);
         const fetchData = async () => {
             var response = await giveCompaniesData();
 
@@ -50,6 +52,7 @@ export default function ShowCompanies({ cookies }) {
             companies.current = companiesData;
             setSearchedCompanies(companiesData);
             setUserType(userType);
+            setLoading(false);
         }
         fetchData();
     }, [cookies]);
@@ -70,7 +73,7 @@ export default function ShowCompanies({ cookies }) {
         }
     }, [query]);
 
-    if (null === searchedCompanies || null===userType)
+    if (true===loading)
         return (<Spinner />);
 
     const redirectHandler = (e) => {

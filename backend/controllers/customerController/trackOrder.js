@@ -1,30 +1,29 @@
-const orderModel = require("../../models/orderModel")
-const workerModel = require("../../models/workerModel")
+const Order = require("../../models/orderModel")
+const Worker = require("../../models/workerModel")
 
-exports.trackOrder = async(req,res)=>{
-const isOrderCorrect = await orderModel.find({$and:[{_id:req.body.order_id},{customer_id:req.userid}]})
-console.log("from track order")
-console.log(isOrderCorrect[0])
-console.log(isOrderCorrect[0].worker_id)
-if (isOrderCorrect){
-const worker = await workerModel.find({_id: isOrderCorrect[0].worker_id})
-console.log(worker)
-if(worker){
-    res.status(200)
-    res.json({
-        found:true,
-        order:isOrderCorrect,
-        worker
-    })
-}
-else{
-    res.status(200)
-    res.json({
-        found:false,
-        isOrderCorrect,
-    })
-}
-}else{
-    throw Error ("Order Id Not found")
-}
+exports.trackOrder = async (req, res) => {
+
+    const { order_id } = req.body;
+
+    const order = await Order.findOne({ $and: [{ _id: order_id }, { customer_id: req.userid }] });
+    
+    if (order) {
+        const worker = await Worker.findOne({ _id: order.worker_id });
+        console.log(worker)
+        if (worker) {
+            res.status(200).json({
+                order: order,
+                worker
+            })
+        }
+        else {
+            res.status(404).json({
+                error: "worker who is assigned for you order not found"
+            })
+        }
+    } else {
+        res.status(404).json({
+            error: "order is not found"
+        })
+    }
 }

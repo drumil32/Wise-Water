@@ -1,9 +1,6 @@
 const registerUser = async (userType, userObj) => {
     try {
-        var action = "register";
-        if ('worker' === userType)
-            action = 'application';
-        const response = await fetch(`/api/${userType}/${action}`, {
+        const response = await fetch(`/api/${userType}/register`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json, text/plain, */*',
@@ -12,18 +9,12 @@ const registerUser = async (userType, userObj) => {
             body: JSON.stringify(userObj)
         });
         const data = await response.json();
-        if ('error' === data.type)
-            throw new Error(data.message);
+        if (undefined !== data.error)
+            throw new Error(data.error.errorMessage);
         else {
-            if ('worker' === userType) {
-                return {
-                    type: 'success'
-                }
-            } else {
-                return {
-                    type: 'data',
-                    token: data.token
-                }
+            return {
+                type: 'data',
+                token: data.token
             }
         }
     } catch (error) {

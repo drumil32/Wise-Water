@@ -1,6 +1,5 @@
-const Company = require('../../models/companyModel');
 const Order = require('../../models/orderModel');
-const asyncHandler = require('express-async-handler');
+
 
 // showPlacedOrders user type : customer
 // @desc    showPlacedOrders : customer can see placed orders by this controller
@@ -8,16 +7,17 @@ const asyncHandler = require('express-async-handler');
 // @access  private
 // applied middleware :- userTypeHandler , protect
 
-exports.showPlacedOrders = asyncHandler(async (req, res) => {
-    console.log('from show placed orders')
-    const orderList = await Order.find({ customer_id: req.userid });
-    console.log(orderList)
-    if (orderList) {
-        res.json({
+exports.showPlacedOrders = async (req, res) => {
+    try {
+        const orderList = await Order.find({ customer_id: req.userid });
+        res.status(200).json({
             orderList,
         });
-    } else {
-        res.status(400);
-        throw new Error('some thing went wrong try again');
+    } catch (error) {
+        res.status(500).json({
+            error: {
+                errorMessage: ['Interanl Server Error']
+            }
+        })
     }
-});
+};

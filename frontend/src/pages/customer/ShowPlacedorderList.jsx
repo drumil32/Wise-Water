@@ -5,24 +5,27 @@ import { useNavigate } from 'react-router-dom';
 import { givePlacedOrders } from '../../actions/customer/givePlacedOrders';
 
 export default function ShowPlacedorderList({ cookies }) {
-    const [placedOrderList, setPlacedOrderList] = useState(null);
+    const [placedOrderList, setPlacedOrderList] = useState([]);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate()
 
     useEffect(() => {
         const { token } = cookies;
 
         const fetchData = async () => {
+            setLoading(true);
             const response = await givePlacedOrders(token);
             if ('error' === response.type) {
                 alert(response.error);
                 navigate('/login');
             }
             setPlacedOrderList(response.orderList);
+            setLoading(false);
         }
         fetchData();
     }, [cookies]);
 
-    if (null === placedOrderList) {
+    if (true === loading) {
         return <Spinner />
     }
     const handleTrackOrder = (e) => {

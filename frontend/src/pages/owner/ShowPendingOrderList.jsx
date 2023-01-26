@@ -7,23 +7,26 @@ import { givePendingOrders } from "../../actions/owner/givePendingOrders";
 
 export default function ShowPendingOrderList({ cookies }) {
   const navigate = useNavigate();
-  const [pendingOrderList, setPendingOrderList] = useState(null);
+  const [pendingOrderList, setPendingOrderList] = useState([]);
+  const [loading, setLoading] = useState(false);
   console.log("here");
   useEffect(() => {
     const { token } = cookies;
 
     const fetchData = async () => {
+      setLoading(true);
       const response = await givePendingOrders(token);
       if ('error' === response.type) {
         alert(response.error);
         navigate('/login');
       }
-      setPendingOrderList(response.pendingOrderList)
+      setPendingOrderList(response.pendingOrderList);
+      setLoading(false);
     };
     fetchData();
   }, [cookies]);
 
-  if (null === pendingOrderList) {
+  if (true===loading) {
     return <Spinner />;
   }
 

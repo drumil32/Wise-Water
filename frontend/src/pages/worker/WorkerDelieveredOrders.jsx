@@ -8,21 +8,24 @@ import { giveWorkerDelieveredOrders } from '../../actions/worker/giveWorkerDelie
 export default function ShowAssignedOrders({ cookies }) {
     const navigate = useNavigate();
     const { token } = cookies;
-    const [delieveredOrders, setDelieveredOrders] = useState(null);
+    const [delieveredOrders, setDelieveredOrders] = useState([]);
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true);
             const response = await giveWorkerDelieveredOrders(token);
-            if( 'error'===response.type ){
+            if ('error' === response.type) {
                 alert(response.error);
                 navigate('/login');
-            }else{
+            } else {
                 setDelieveredOrders(response.delieveredOrders);
             }
+            setLoading(false);
         }
         fetchData();
     }, [token]);
 
-    if (null === delieveredOrders) {
+    if (true === loading) {
         return <Spinner />;
     }
 
