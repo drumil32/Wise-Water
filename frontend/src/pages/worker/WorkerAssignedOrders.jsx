@@ -33,12 +33,15 @@ export default function WorkerAssignedOrders({ cookies }) {
     const handleDelieverOrder = async (e) => {
         e.preventDefault();
         console.log(e.target.value);
+        setLoading(true);
         const response = await deliverOrder(token, e.target.value);
         if ('error' === response.type) {
             alert(response.error);
         } else {
+            const response = await giveWorkerAssignedOrders(token);
             setAssignedOrders(response.assignedOrders);
         }
+        setLoading(false);
     }
     const handleAssignedOrderQuery = (e) => {
         e.preventDefault();

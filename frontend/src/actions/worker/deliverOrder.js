@@ -1,4 +1,4 @@
-const deliverOrder = async (token,order_id) => {
+const deliverOrder = async (token, order_id) => {
     try {
         const response = await fetch(
             `/api/worker/order-delivered`,
@@ -12,12 +12,11 @@ const deliverOrder = async (token,order_id) => {
             }
         );
         const data = await response.json();
-        if ('error' === data.type)
-            throw new Error(data.message);
+        if (undefined !== data.error)
+            throw new Error(data.error.errorMessage);
         else {
             return {
-                type: 'data',
-                assignedOrders: data.assignedOrders
+                type: 'success'
             }
         }
     } catch (error) {

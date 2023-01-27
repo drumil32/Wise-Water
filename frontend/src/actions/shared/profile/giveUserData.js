@@ -5,17 +5,16 @@ const giveUserData = async (userType, token) => {
                 "Content-Type": "application/json",
                 'Authorization': `Bearer ${token}`
             },
-            // body: JSON.stringify({ token }),
         });
         const data = await response.json();
-        if (data.type === 'error')
-            throw new Error(data.message);
+        if (undefined !== data.error)
+            throw new Error(data.error.errorMessage);
         else {
             const responseObject = {
-                type : 'data',
-                userData : data.userData,
+                type: 'data',
+                userData: data.userData,
             }
-            if( 'customer'!==userType ){
+            if ('customer' !== userType) {
                 responseObject.companyData = data.companyData
             }
             return (responseObject);

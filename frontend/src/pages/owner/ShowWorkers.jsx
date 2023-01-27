@@ -20,7 +20,6 @@ export default function ShowWorkers({ cookies }) {
 
       if ('error' === response.type) {
         alert(response.error);
-
       } else {
         setShowWorkers(response.workers);
       }

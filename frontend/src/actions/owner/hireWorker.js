@@ -10,8 +10,8 @@ const hireWorker = async (token, workerApplication) => {
             body: JSON.stringify({ workerApplication }),
         });
         const data = await response.json();
-        if (data.type === 'error')
-            throw (data.message);
+        if (undefined !== data.error)
+            throw new Error(data.error.errorMessage);
         else {
             return {
                 type : 'success'

@@ -3,7 +3,7 @@ const errorHandler = (err, req, res, next) => {
     const statusCode = res.statusCode ? res.statusCode : 500;
     console.log(statusCode);
     res.status(statusCode);
-
+    console.log('here!!!!')
     res.json({
         type : 'error', // to check on frontend type of response
         message: err.message,

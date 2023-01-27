@@ -6,7 +6,7 @@ exports.trackOrder = async (req, res) => {
     const { order_id } = req.body;
 
     const order = await Order.findOne({ $and: [{ _id: order_id }, { customer_id: req.userid }] });
-    
+
     if (order) {
         const worker = await Worker.findOne({ _id: order.worker_id });
         console.log(worker)
@@ -22,8 +22,11 @@ exports.trackOrder = async (req, res) => {
             })
         }
     } else {
+        console.log(error);
         res.status(404).json({
-            error: "order is not found"
+            error: {
+                errorMessage: ['order is not found']
+            }
         })
     }
 }

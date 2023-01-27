@@ -1,8 +1,7 @@
 const givePendingOrders = async (token) => {
     try {
         const response = await fetch(
-            `/api/owner/show-pending-orders
-            `,
+            `/api/owner/show-pending-orders`,
             {
                 headers: {
                     "Content-Type": "application/json",
@@ -11,8 +10,8 @@ const givePendingOrders = async (token) => {
             }
         );
         const data = await response.json();
-        if ('error' === data.type)
-            throw new Error(data.message);
+        if (undefined !== data.error)
+            throw new Error(data.error.errorMessage);
         else {
             return {
                 type: 'data',

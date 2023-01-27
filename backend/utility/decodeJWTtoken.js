@@ -1,28 +1,35 @@
 const jwt = require('jsonwebtoken');
 exports.decodeJWTtoken = (req, res) => {
 
-    const { authorization } = req.headers
-    console.log(authorization)
-    if ('Bearer undefined'!==authorization) {
+    const { authorization } = req.headers;
+    if ('Bearer undefined' !== authorization) {
         const token = authorization.split(' ')[1];
         if ('undefined' !== token) {
-            console.log('from dcode jwt token');
-            console.log(token);
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
             if (decoded === undefined) {
-                throw new Error('invalid token')
+                res.status(401).json({
+                    error: {
+                        errorMessage: ['you are not authorized for this page']
+                    }
+                });
             }
             else {
-                console.log('data');
-                console.log(decoded)
                 return decoded;
             }
         } else {
-            res.status(401);
-            throw new Error('not authorized, no token');
+            console.log('here')
+            res.status(401).json({
+                error: {
+                    errorMessage: ['you are not authorized for this page']
+                }
+            });
         }
     } else {
-        res.status(401);
-        throw new Error('not authorized, no token');
+        console.log('baread header is not exists')
+        res.status(401).json({
+            error: {
+                errorMessage: ['you are not authorized for this page']
+            }
+        });
     }
 }

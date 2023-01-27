@@ -55,27 +55,3 @@ exports.registerUser = async (req, res) => {
         }
     }
 };
-
-
-function checkValidation(userData, companyData, res) {
-
-
-
-    if (!firstname || !lastname || !email || !password || !confirmPassword || !contact || !companyName || !companyEmail || !companyContact || !companyServiceTime || !companyAddress.line1 || !companyAddress.line2 || !companyAddress.city || !companyAddress.pincode || !companyAddress.state) {
-        res.status(400);
-        throw new Error('please provide all the details');
-    }
-    else if (contact.length !== 10 || companyContact.length !== 10) {
-        res.status(400);
-        throw new Error('contact length must be 10');
-    }
-    else if (password !== confirmPassword) {
-        res.status(400);
-        throw new Error('password and confirm password must be the same');
-    } else if (companyServiceTime) {
-        // validation is required
-    } else if (companyAddress) {
-        // validation is required
-        // for pincode
-    }
-}

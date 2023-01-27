@@ -1,4 +1,4 @@
-const  loginUser = async (user) => {
+const loginUser = async (user) => {
     console.log(user)
     try {
         const response = await fetch(`/api/user/login`, {
@@ -11,19 +11,19 @@ const  loginUser = async (user) => {
         });
         const data = await response.json();
         console.log(data);
-        if ('error' === data.type) 
-            throw new Error(data.message);
-        else{
+        if (undefined !== data.error)
+            throw new Error(data.error.errorMessage);
+        else {
             return {
-                type : 'data',
-                token : data.token,
+                type: 'data',
+                token: data.token,
             }
         }
 
     } catch (error) {
         return {
-            type : 'error',
-            error : error
+            type: 'error',
+            error: error
         };
     }
 }

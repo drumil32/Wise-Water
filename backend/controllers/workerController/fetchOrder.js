@@ -1,20 +1,29 @@
-const Order = require("../../models/orderModel")
+const Order = require("../../models/orderModel");
+
 exports.fetchOrder = async (req, res) => {
     const { order_id } = req.body;
-    console.log("from order query...", order_id);
-    const order = await Order.find({ $and: [{ _id: order_id }, { worker_id: req.userid }] });
-    console.log(order);
-    if (order) {
-        res.status(200);
-        res.json({
-            order,
-            found: true
-        })
-    }
-    else {
-        res.status(201);
-        res.json({
-            found: false
+
+    try {
+        const order = await Order.find({ $and: [{ _id: order_id }, { worker_id: req.userid }] });
+        console.log(order);
+        if (order) {
+            res.status(200).json({
+                order,
+            })
+        }
+        else {
+            res.status(404).json({
+                error: {
+                    errorMessage: ['order is not found']
+                }
+            })
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            error: {
+                errorMessage: ['Interanl Server Error']
+            }
         })
     }
 }

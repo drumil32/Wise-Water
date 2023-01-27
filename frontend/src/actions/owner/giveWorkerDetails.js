@@ -7,8 +7,8 @@ const giveWorkerDetails = async (token) => {
             },
         });
         const data = await response.json();
-        if (data.type === 'error')
-            throw new Error(data.message);
+        if (undefined !== data.error)
+            throw new Error(data.error.errorMessage);
         else {
             return {
                 type : 'data',

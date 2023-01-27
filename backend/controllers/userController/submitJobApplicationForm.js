@@ -25,7 +25,6 @@ exports.submitJobApplicationForm = async (req, res) => {
                 email,
                 company_name: companyname
             });
-
             res.status(201).json({
                 _id: worker._id,
             });

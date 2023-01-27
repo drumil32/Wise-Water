@@ -1,16 +1,27 @@
 const Customer = require('../../models/customerModel');
 const asyncHandler = require('express-async-handler');
 
-exports.profile = asyncHandler(async (req, res) => {
-    const userData = await Customer.findOne({ _id: req.userid });
+exports.profile = async (req, res) => {
 
-    if (userData) {
-        res.status(200).json({
-            userData
-        });
-    } else {
-        res.status(401);
-        throw new Error('user not found');
+    try {
+        const userData = await Customer.findOne({ _id: req.userid });
+        if (userData) {
+            res.status(200).json({
+                userData
+            });
+        } else {
+            res.status(404).json({
+                error: {
+                    errorMessage: ['user not found']
+                }
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            error: {
+                errorMessage: ['Interanl Server Error']
+            }
+        })
     }
 
-})
+}
